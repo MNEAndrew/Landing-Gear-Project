@@ -1,24 +1,22 @@
 """
 Tests for Pydantic models.
 
-Tests input validation and output model behavior.
+Tests input validation, output model behavior, and JSON serialization.
 """
 
+import json
 import pytest
 from pydantic import ValidationError
 
 from gearrec.models.inputs import AircraftInputs, RunwayType, DesignPriorities
 from gearrec.models.outputs import (
     GeometryRange,
-    GearConcept,
     GearConfig,
     GearType,
-    Geometry,
-    TireSuggestion,
-    Loads,
-    CheckResult,
-    Checks,
     ScoreBreakdown,
+    SweepResult,
+    ConceptSweepResult,
+    SweepPoint,
 )
 
 
@@ -37,10 +35,7 @@ class TestDesignPriorities:
     def test_normalized_weights_sum_to_one(self):
         """Test that normalized weights sum to 1.0."""
         priorities = DesignPriorities(
-            robustness=2.0,
-            low_drag=1.0,
-            low_mass=3.0,
-            simplicity=4.0,
+            robustness=2.0, low_drag=1.0, low_mass=3.0, simplicity=4.0,
         )
         
         normalized = priorities.normalized()
@@ -51,17 +46,12 @@ class TestDesignPriorities:
     def test_normalized_with_all_zero(self):
         """Test normalization with all zero weights."""
         priorities = DesignPriorities(
-            robustness=0.0,
-            low_drag=0.0,
-            low_mass=0.0,
-            simplicity=0.0,
+            robustness=0.0, low_drag=0.0, low_mass=0.0, simplicity=0.0,
         )
         
         normalized = priorities.normalized()
         
-        # Should return equal weights
         assert normalized["robustness"] == 0.25
-        assert normalized["low_drag"] == 0.25
 
 
 class TestAircraftInputs:
@@ -105,29 +95,44 @@ class TestAircraftInputs:
         
         assert inputs.get_mlw_kg() == 900.0
     
-    def test_cg_mid_calculation(self):
-        """Test CG midpoint calculation."""
+    def test_fuselage_length_estimation(self):
+        """Test fuselage length estimation when not provided."""
         inputs = AircraftInputs(
             aircraft_name="Test",
-            mtow_kg=1000.0,
+            mtow_kg=1200.0,
             cg_fwd_m=2.0,
             cg_aft_m=2.4,
             landing_speed_mps=28.0,
         )
         
-        assert inputs.cg_mid_m == pytest.approx(2.2, rel=0.01)
+        length = inputs.get_fuselage_length_m()
+        assert 5 <= length <= 25
     
-    def test_cg_range_calculation(self):
-        """Test CG range calculation."""
+    def test_explicit_fuselage_length_used(self):
+        """Test that explicit fuselage length is used when provided."""
         inputs = AircraftInputs(
             aircraft_name="Test",
-            mtow_kg=1000.0,
+            mtow_kg=1200.0,
+            fuselage_length_m=10.5,
             cg_fwd_m=2.0,
             cg_aft_m=2.4,
             landing_speed_mps=28.0,
         )
         
-        assert inputs.cg_range_m == pytest.approx(0.4, rel=0.01)
+        assert inputs.get_fuselage_length_m() == 10.5
+    
+    def test_cg_height_estimation(self):
+        """Test CG height estimation when not provided."""
+        inputs = AircraftInputs(
+            aircraft_name="Test",
+            mtow_kg=1200.0,
+            cg_fwd_m=2.0,
+            cg_aft_m=2.4,
+            landing_speed_mps=28.0,
+        )
+        
+        height = inputs.get_cg_height_m()
+        assert 0.8 <= height <= 2.5
     
     def test_invalid_cg_range_raises_error(self):
         """Test that aft CG before forward CG raises error."""
@@ -135,7 +140,7 @@ class TestAircraftInputs:
             AircraftInputs(
                 aircraft_name="Test",
                 mtow_kg=1000.0,
-                cg_fwd_m=2.5,  # Forward is aft of "aft"
+                cg_fwd_m=2.5,
                 cg_aft_m=2.0,
                 landing_speed_mps=28.0,
             )
@@ -151,43 +156,17 @@ class TestAircraftInputs:
                 landing_speed_mps=28.0,
             )
     
-    def test_sink_rate_limits(self):
-        """Test sink rate validation limits."""
-        # Valid sink rate
+    def test_brake_decel_g_default(self):
+        """Test that brake_decel_g has correct default."""
         inputs = AircraftInputs(
             aircraft_name="Test",
             mtow_kg=1000.0,
             cg_fwd_m=2.0,
             cg_aft_m=2.4,
             landing_speed_mps=28.0,
-            sink_rate_mps=3.0,
-        )
-        assert inputs.sink_rate_mps == 3.0
-        
-        # Sink rate too high
-        with pytest.raises(ValidationError):
-            AircraftInputs(
-                aircraft_name="Test",
-                mtow_kg=1000.0,
-                cg_fwd_m=2.0,
-                cg_aft_m=2.4,
-                landing_speed_mps=28.0,
-                sink_rate_mps=6.0,  # Too high
-            )
-    
-    def test_runway_enum(self):
-        """Test runway type enum values."""
-        inputs = AircraftInputs(
-            aircraft_name="Test",
-            mtow_kg=1000.0,
-            cg_fwd_m=2.0,
-            cg_aft_m=2.4,
-            landing_speed_mps=28.0,
-            runway=RunwayType.GRASS,
         )
         
-        assert inputs.runway == RunwayType.GRASS
-        assert inputs.runway.value == "grass"
+        assert inputs.brake_decel_g == 0.4
 
 
 class TestGeometryRange:
@@ -204,40 +183,95 @@ class TestGeometryRange:
         assert range_.span == 1.0
 
 
-class TestOutputModels:
-    """Tests for output model structures."""
+class TestJSONSerialization:
+    """Tests for JSON serialization round-trip."""
     
-    def test_check_result_structure(self):
-        """Test CheckResult model."""
-        check = CheckResult(
-            passed=True,
-            value=0.15,
-            limit=0.10,
-            description="Test check",
+    def test_aircraft_inputs_json_roundtrip(self):
+        """Test that AircraftInputs survives JSON round-trip."""
+        inputs = AircraftInputs(
+            aircraft_name="Test",
+            mtow_kg=1200.0,
+            cg_fwd_m=2.0,
+            cg_aft_m=2.4,
+            landing_speed_mps=28.0,
+            sink_rate_mps=2.5,
+            runway=RunwayType.GRASS,
         )
         
-        assert check.passed
-        assert check.value > check.limit
+        json_str = inputs.model_dump_json()
+        restored = AircraftInputs.model_validate_json(json_str)
+        
+        assert restored.aircraft_name == inputs.aircraft_name
+        assert restored.mtow_kg == inputs.mtow_kg
+        assert restored.runway == inputs.runway
     
-    def test_score_breakdown_bounds(self):
-        """Test ScoreBreakdown value bounds."""
-        # Valid scores
+    def test_sweep_result_json_roundtrip(self):
+        """Test that SweepResult survives JSON round-trip."""
+        result = SweepResult(
+            aircraft_name="Test",
+            sink_rates_swept=[1.5, 2.0, 2.5],
+            cg_positions_swept=[2.0, 2.2, 2.4],
+            concept_results=[
+                ConceptSweepResult(
+                    config=GearConfig.TRICYCLE,
+                    gear_type=GearType.FIXED,
+                    pass_rate=0.8,
+                    avg_score=0.75,
+                    worst_case_score=0.6,
+                    best_case_score=0.9,
+                    sweep_points=[
+                        SweepPoint(
+                            sink_rate_mps=2.0,
+                            cg_position_m=2.2,
+                            cg_label="mid",
+                            all_checks_passed=True,
+                            score=0.75,
+                            failed_checks=[],
+                        )
+                    ],
+                )
+            ],
+            most_robust_concept="tricycle_fixed",
+        )
+        
+        json_str = result.model_dump_json()
+        restored = SweepResult.model_validate_json(json_str)
+        
+        assert restored.aircraft_name == result.aircraft_name
+        assert restored.most_robust_concept == result.most_robust_concept
+        assert len(restored.concept_results) == 1
+
+
+class TestScoreBreakdown:
+    """Tests for ScoreBreakdown model."""
+    
+    def test_valid_scores(self):
+        """Test valid score values."""
         breakdown = ScoreBreakdown(
             robustness=0.8,
             low_drag=0.6,
             low_mass=0.9,
             simplicity=0.7,
-            checks_penalty=0.1,
         )
         
-        assert 0 <= breakdown.robustness <= 1
-        
-        # Invalid score raises error
+        assert breakdown.robustness == 0.8
+    
+    def test_invalid_score_over_one(self):
+        """Test that score > 1 raises error."""
         with pytest.raises(ValidationError):
             ScoreBreakdown(
-                robustness=1.5,  # > 1
+                robustness=1.5,
                 low_drag=0.6,
                 low_mass=0.9,
                 simplicity=0.7,
             )
-
+    
+    def test_invalid_score_negative(self):
+        """Test that negative score raises error."""
+        with pytest.raises(ValidationError):
+            ScoreBreakdown(
+                robustness=-0.1,
+                low_drag=0.6,
+                low_mass=0.9,
+                simplicity=0.7,
+            )

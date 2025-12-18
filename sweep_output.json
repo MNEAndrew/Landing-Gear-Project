@@ -1,0 +1,654 @@
+{
+  "aircraft_name": "GA-2024 Trainer",
+  "sink_rates_swept": [
+    1.5,
+    2.0,
+    2.5,
+    3.0
+  ],
+  "cg_positions_swept": [
+    2.1,
+    2.2750000000000004,
+    2.45
+  ],
+  "concept_results": [
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8500000000000001,
+      "worst_case_score": 0.8500000000000001,
+      "best_case_score": 0.8500000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8500000000000001,
+      "worst_case_score": 0.8500000000000001,
+      "best_case_score": 0.8500000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8500000000000001,
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8375,
+      "worst_case_score": 0.8375000000000001,
+      "best_case_score": 0.8375000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8375,
+      "worst_case_score": 0.8375000000000001,
+      "best_case_score": 0.8375000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8375,
+      "worst_case_score": 0.8375000000000001,
+      "best_case_score": 0.8375000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "pass_rate": 1.0,
+      "avg_score": 0.8375,
+      "worst_case_score": 0.8375000000000001,
+      "best_case_score": 0.8375000000000001,
+      "sweep_points": [
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 1.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 2.5,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.1,
+          "cg_label": "fwd",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.2750000000000004,
+          "cg_label": "mid",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        },
+        {
+          "sink_rate_mps": 3.0,
+          "cg_position_m": 2.45,
+          "cg_label": "aft",
+          "all_checks_passed": true,
+          "score": 0.8375000000000001,
+          "failed_checks": []
+        }
+      ]
+    }
+  ],
+  "most_robust_concept": "tricycle_fixed",
+  "warnings": []
+}

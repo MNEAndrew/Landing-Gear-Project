@@ -212,8 +212,8 @@ def estimate_gear_positions_tricycle(
         
     Heuristics:
         - Main gear slightly aft of aft CG for tip-back margin
-        - Nose gear near front, typically 0.1-0.2 * fuselage length from nose
-        - Wheelbase typically 0.25-0.35 * fuselage length
+        - Nose gear near the nose, typically 0.06-0.12 * fuselage length from the nose/datum
+        - Wheelbase typically 0.20-0.35 * fuselage length (varies by aircraft class)
     """
     cg_mid = (cg_fwd_m + cg_aft_m) / 2
     
@@ -233,9 +233,10 @@ def estimate_gear_positions_tricycle(
     if nose_gear_guess_m is not None:
         x_nose_mid = nose_gear_guess_m
     else:
-        # Nose gear typically at 0.10-0.15 * fuselage length from datum
-        # Assuming datum is near nose
-        x_nose_mid = 0.12 * fuselage_length_m
+        # Nose gear should usually be quite close to the nose.
+        # Using 0.08*L helps keep the nose-load fraction in a typical range
+        # for GA-style tricycle layouts when the datum is at/near the nose.
+        x_nose_mid = 0.08 * fuselage_length_m
     
     x_nose_min = max(0.05 * fuselage_length_m, x_nose_mid - 0.03 * fuselage_length_m)
     x_nose_max = x_nose_mid + 0.05 * fuselage_length_m

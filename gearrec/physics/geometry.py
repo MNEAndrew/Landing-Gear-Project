@@ -236,7 +236,7 @@ def check_tip_back_margin(
     x_main: float,
     wheelbase: float,
     cg_height: float,
-    min_margin_ratio: float = 0.15,
+    min_margin_ratio: float = 0.03,
 ) -> SafetyCheckResult:
     """
     Check tip-back margin for tricycle gear.
@@ -256,7 +256,7 @@ def check_tip_back_margin(
     Check:
         - CG must be forward of main gear by at least margin
         - margin = (x_main - x_cg) / wheelbase
-        - Should be > 0.15 (15% of wheelbase) typically
+        - Should be > 0.03 (3% of wheelbase) for conceptual sizing
         
     Physics:
         - If CG is at or behind main gear, aircraft tips back

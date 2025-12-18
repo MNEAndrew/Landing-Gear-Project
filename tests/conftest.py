@@ -15,12 +15,15 @@ def basic_inputs() -> AircraftInputs:
         mlw_kg=1140.0,
         cg_fwd_m=2.1,
         cg_aft_m=2.4,
+        cg_height_m=1.1,
+        fuselage_length_m=8.5,
         landing_speed_mps=28.0,
         sink_rate_mps=2.0,
         runway=RunwayType.PAVED,
         retractable=False,
         prop_clearance_m=0.25,
         wing_low=True,
+        brake_decel_g=0.4,
         design_priorities=DesignPriorities(),
     )
 
@@ -40,6 +43,7 @@ def light_aircraft_inputs() -> AircraftInputs:
         retractable=False,
         prop_clearance_m=0.20,
         wing_low=False,
+        brake_decel_g=0.35,
         design_priorities=DesignPriorities(
             robustness=1.5,
             low_drag=0.5,
@@ -64,6 +68,7 @@ def heavy_aircraft_inputs() -> AircraftInputs:
         retractable=True,
         prop_clearance_m=0.35,
         wing_low=True,
+        brake_decel_g=0.45,
         design_priorities=DesignPriorities(
             robustness=1.0,
             low_drag=2.0,
@@ -71,4 +76,3 @@ def heavy_aircraft_inputs() -> AircraftInputs:
             simplicity=0.5,
         ),
     )
-

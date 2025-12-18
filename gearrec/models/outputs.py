@@ -2,7 +2,7 @@
 Output models for landing gear recommendations.
 
 These models define the structure of gear concept suggestions returned
-by the recommender.
+by the recommender. This is for CONCEPTUAL SIZING ONLY - not certification.
 """
 
 from enum import Enum
@@ -67,6 +67,15 @@ class Geometry(BaseModel):
     )
 
 
+class CatalogTire(BaseModel):
+    """A tire from the internal catalog."""
+    name: str = Field(..., description="Tire designation/name")
+    diameter_m: float = Field(..., description="Tire outer diameter in meters")
+    width_m: float = Field(..., description="Tire width in meters")
+    max_load_N: float = Field(..., description="Maximum rated load in Newtons")
+    max_pressure_kpa: Optional[float] = Field(default=None, description="Max inflation pressure in kPa")
+
+
 class TireSuggestion(BaseModel):
     """
     Tire sizing suggestions based on load requirements.
@@ -87,9 +96,13 @@ class TireSuggestion(BaseModel):
         ..., 
         description="Suggested tire diameter range based on load and runway"
     )
-    suggested_tire_width_m: Optional[float] = Field(
+    recommended_tire_width_range_m: Optional[GeometryRange] = Field(
         default=None,
-        description="Suggested tire width for soft-field operations"
+        description="Suggested tire width range (especially for soft field)"
+    )
+    matched_catalog_tires: Optional[list[CatalogTire]] = Field(
+        default=None,
+        description="Matching tires from internal catalog (if available)"
     )
 
 
@@ -99,6 +112,11 @@ class Loads(BaseModel):
     
     All loads in Newtons, energy in Joules.
     """
+    weight_N: float = Field(
+        ...,
+        ge=0,
+        description="Aircraft weight at landing (MLW) in Newtons"
+    )
     static_nose_or_tail_load_N: float = Field(
         ..., 
         description="Static load on nose/tail wheel(s)"
@@ -114,12 +132,12 @@ class Loads(BaseModel):
     landing_energy_J: float = Field(
         ..., 
         ge=0,
-        description="Kinetic energy to be absorbed at touchdown"
+        description="Kinetic energy to be absorbed at touchdown (0.5*m*v^2)"
     )
     required_avg_force_N: float = Field(
         ..., 
         ge=0,
-        description="Average force required during shock absorption"
+        description="Average force required during shock absorption (E/stroke)"
     )
     nose_load_fraction: float = Field(
         ..., 
@@ -135,6 +153,13 @@ class CheckResult(BaseModel):
     value: float = Field(..., description="Computed margin or ratio")
     limit: float = Field(..., description="Required threshold")
     description: str = Field(default="", description="Explanation of the check")
+
+
+class CGSensitivity(BaseModel):
+    """Summary of CG range sensitivity analysis."""
+    pass_rate: float = Field(..., ge=0, le=1, description="Fraction of CG positions passing all checks")
+    worst_case_position: str = Field(..., description="CG position with worst margins (fwd/mid/aft)")
+    critical_check: Optional[str] = Field(default=None, description="Check most sensitive to CG")
 
 
 class Checks(BaseModel):
@@ -161,6 +186,18 @@ class Checks(BaseModel):
         default=True,
         description="Whether propeller clearance requirement is met"
     )
+    rollover_angle_deg: Optional[float] = Field(
+        default=None,
+        description="Computed rollover angle in degrees"
+    )
+    prop_clearance_margin_m: Optional[float] = Field(
+        default=None,
+        description="Margin above prop clearance requirement"
+    )
+    cg_range_sensitivity: Optional[CGSensitivity] = Field(
+        default=None,
+        description="Summary of how checks vary across CG range"
+    )
 
 
 class ScoreBreakdown(BaseModel):
@@ -186,6 +223,7 @@ class GearConcept(BaseModel):
     A complete landing gear concept recommendation.
     
     Includes configuration, geometry, loads, safety checks, and scoring.
+    This is for CONCEPTUAL SIZING ONLY - not for certification.
     """
     # Configuration
     config: GearConfig = Field(..., description="Tricycle or taildragger")
@@ -219,6 +257,18 @@ class GearConcept(BaseModel):
     explanation: list[str] = Field(
         ..., 
         description="Bullet points explaining design choices and fit"
+    )
+    
+    # Assumptions used for this concept
+    assumptions: list[str] = Field(
+        default_factory=list,
+        description="Key assumptions used in generating this concept"
+    )
+    
+    # Input summary (normalized key inputs used)
+    input_summary: dict[str, float | str] = Field(
+        default_factory=dict,
+        description="Summary of key input parameters used"
     )
     
     # Scoring
@@ -268,3 +318,33 @@ class RecommendationResult(BaseModel):
         """Return only concepts that pass all checks."""
         return [c for c in self.concepts if c.all_checks_passed]
 
+
+class SweepPoint(BaseModel):
+    """Result for a single sweep point."""
+    sink_rate_mps: float = Field(..., description="Sink rate at this point")
+    cg_position_m: float = Field(..., description="CG position at this point")
+    cg_label: str = Field(..., description="CG position label (fwd/mid/aft)")
+    all_checks_passed: bool = Field(..., description="Whether all checks passed")
+    score: float = Field(..., ge=0, le=1, description="Score at this point")
+    failed_checks: list[str] = Field(default_factory=list, description="Names of failed checks")
+
+
+class ConceptSweepResult(BaseModel):
+    """Sweep results for a single concept."""
+    config: GearConfig = Field(..., description="Gear configuration")
+    gear_type: GearType = Field(..., description="Fixed or retractable")
+    pass_rate: float = Field(..., ge=0, le=1, description="Fraction of points passing all checks")
+    avg_score: float = Field(..., ge=0, le=1, description="Average score across sweep")
+    worst_case_score: float = Field(..., ge=0, le=1, description="Worst score in sweep")
+    best_case_score: float = Field(..., ge=0, le=1, description="Best score in sweep")
+    sweep_points: list[SweepPoint] = Field(..., description="Individual sweep point results")
+
+
+class SweepResult(BaseModel):
+    """Complete sweep analysis result."""
+    aircraft_name: str = Field(..., description="Input aircraft name")
+    sink_rates_swept: list[float] = Field(..., description="Sink rates evaluated")
+    cg_positions_swept: list[float] = Field(..., description="CG positions evaluated")
+    concept_results: list[ConceptSweepResult] = Field(..., description="Results per concept")
+    most_robust_concept: str = Field(..., description="Concept with highest pass rate")
+    warnings: list[str] = Field(default_factory=list, description="Any warnings")

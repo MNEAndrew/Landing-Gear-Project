@@ -3,10 +3,14 @@
   "input_summary": {
     "mtow_kg": 1200.0,
     "mlw_kg": 1140.0,
-    "cg_range_m": "2.10 - 2.45",
+    "cg_fwd_m": 2.1,
+    "cg_aft_m": 2.45,
+    "cg_height_m": 1.1,
+    "fuselage_length_m": 8.5,
     "landing_speed_mps": 28.0,
     "sink_rate_mps": 2.0,
     "runway": "paved",
+    "brake_decel_g": 0.4,
     "retractable_required": false
   },
   "concepts": [
@@ -16,56 +20,128 @@
       "wheel_count_main": 1,
       "wheel_count_nose_or_tail": 1,
       "geometry": {
-        "track_m": {"min": 1.92, "max": 2.99},
-        "wheelbase_m": {"min": 2.27, "max": 3.45},
-        "main_strut_length_m": {"min": 0.40, "max": 0.55},
-        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
-        "stroke_m": {"min": 0.14, "max": 0.17}
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.19,
+          "max": 0.21000000000000002
+        }
       },
       "tire_suggestion": {
-        "required_static_load_per_wheel_N": 7495.0,
-        "required_dynamic_load_per_wheel_N": 15240.0,
-        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
-        "suggested_tire_width_m": null
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 15922.125040540544,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "22x8.00-8",
+            "diameter_m": 0.559,
+            "width_m": 0.203,
+            "max_load_N": 17800.0,
+            "max_pressure_kpa": 310.0
+          },
+          {
+            "name": "24x7.25-10",
+            "diameter_m": 0.61,
+            "width_m": 0.184,
+            "max_load_N": 20020.0,
+            "max_pressure_kpa": 448.0
+          },
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          }
+        ]
       },
       "loads": {
-        "static_nose_or_tail_load_N": 1181.5,
-        "static_main_load_total_N": 9996.3,
-        "static_main_load_per_wheel_N": 4998.2,
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
         "landing_energy_J": 2280.0,
-        "required_avg_force_N": 18562.5,
-        "nose_load_fraction": 0.106
+        "required_avg_force_N": 14249.999999999996,
+        "nose_load_fraction": 0.16516516516516486
       },
       "checks": {
         "tip_back_margin": {
           "passed": true,
-          "value": 0.145,
-          "limit": 0.15,
-          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
         },
         "nose_over_margin": {
           "passed": true,
-          "value": 0.253,
+          "value": 0.6378600823045267,
           "limit": 0.08,
-          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
         },
         "ground_clearance_ok": true,
         "lateral_stability_ok": true,
-        "prop_clearance_ok": true
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.576271186440678,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
       },
       "explanation": [
         "Tricycle configuration provides good forward visibility and ground handling",
         "Fixed gear selected for simplicity, lower cost, and easier maintenance",
         "Single wheel per main leg appropriate for aircraft weight class",
-        "Nose load fraction of 10.6% is within ideal range (8-15%)",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
         "All stability margins within acceptable limits"
       ],
-      "score": 0.82,
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8500000000000001,
       "score_breakdown": {
-        "robustness": 0.80,
+        "robustness": 0.9500000000000001,
         "low_drag": 0.55,
-        "low_mass": 0.85,
-        "simplicity": 0.90,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
         "checks_penalty": 0.0
       }
     },
@@ -75,188 +151,621 @@
       "wheel_count_main": 1,
       "wheel_count_nose_or_tail": 1,
       "geometry": {
-        "track_m": {"min": 1.92, "max": 2.99},
-        "wheelbase_m": {"min": 2.27, "max": 3.45},
-        "main_strut_length_m": {"min": 0.40, "max": 0.55},
-        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
-        "stroke_m": {"min": 0.18, "max": 0.22}
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.19,
+          "max": 0.21000000000000002
+        }
       },
       "tire_suggestion": {
-        "required_static_load_per_wheel_N": 7495.0,
-        "required_dynamic_load_per_wheel_N": 13100.0,
-        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
-        "suggested_tire_width_m": null
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 15922.125040540544,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "22x8.00-8",
+            "diameter_m": 0.559,
+            "width_m": 0.203,
+            "max_load_N": 17800.0,
+            "max_pressure_kpa": 310.0
+          },
+          {
+            "name": "24x7.25-10",
+            "diameter_m": 0.61,
+            "width_m": 0.184,
+            "max_load_N": 20020.0,
+            "max_pressure_kpa": 448.0
+          },
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          }
+        ]
       },
       "loads": {
-        "static_nose_or_tail_load_N": 1181.5,
-        "static_main_load_total_N": 9996.3,
-        "static_main_load_per_wheel_N": 4998.2,
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
         "landing_energy_J": 2280.0,
-        "required_avg_force_N": 14250.0,
-        "nose_load_fraction": 0.106
+        "required_avg_force_N": 14249.999999999996,
+        "nose_load_fraction": 0.16516516516516486
       },
       "checks": {
         "tip_back_margin": {
           "passed": true,
-          "value": 0.145,
-          "limit": 0.15,
-          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
         },
         "nose_over_margin": {
           "passed": true,
-          "value": 0.253,
+          "value": 0.6378600823045267,
           "limit": 0.08,
-          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
         },
         "ground_clearance_ok": true,
         "lateral_stability_ok": true,
-        "prop_clearance_ok": true
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.576271186440678,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
       },
       "explanation": [
         "Tricycle configuration provides good forward visibility and ground handling",
         "Fixed gear selected for simplicity, lower cost, and easier maintenance",
         "Single wheel per main leg appropriate for aircraft weight class",
-        "Longer stroke (0.20m) provides softer landing feel",
-        "Nose load fraction of 10.6% is within ideal range (8-15%)",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
         "All stability margins within acceptable limits"
       ],
-      "score": 0.80,
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8500000000000001,
       "score_breakdown": {
-        "robustness": 0.85,
+        "robustness": 0.9500000000000001,
         "low_drag": 0.55,
-        "low_mass": 0.80,
-        "simplicity": 0.90,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
         "checks_penalty": 0.0
       }
     },
     {
       "config": "tricycle",
-      "gear_type": "retractable",
-      "wheel_count_main": 1,
-      "wheel_count_nose_or_tail": 1,
-      "geometry": {
-        "track_m": {"min": 1.92, "max": 2.99},
-        "wheelbase_m": {"min": 2.27, "max": 3.45},
-        "main_strut_length_m": {"min": 0.40, "max": 0.55},
-        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
-        "stroke_m": {"min": 0.14, "max": 0.17}
-      },
-      "tire_suggestion": {
-        "required_static_load_per_wheel_N": 7495.0,
-        "required_dynamic_load_per_wheel_N": 15240.0,
-        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
-        "suggested_tire_width_m": null
-      },
-      "loads": {
-        "static_nose_or_tail_load_N": 1181.5,
-        "static_main_load_total_N": 9996.3,
-        "static_main_load_per_wheel_N": 4998.2,
-        "landing_energy_J": 2280.0,
-        "required_avg_force_N": 18562.5,
-        "nose_load_fraction": 0.106
-      },
-      "checks": {
-        "tip_back_margin": {
-          "passed": true,
-          "value": 0.145,
-          "limit": 0.15,
-          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
-        },
-        "nose_over_margin": {
-          "passed": true,
-          "value": 0.253,
-          "limit": 0.08,
-          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
-        },
-        "ground_clearance_ok": true,
-        "lateral_stability_ok": true,
-        "prop_clearance_ok": true
-      },
-      "explanation": [
-        "Tricycle configuration provides good forward visibility and ground handling",
-        "Retractable gear reduces drag for higher cruise performance",
-        "Single wheel per main leg appropriate for aircraft weight class",
-        "Nose load fraction of 10.6% is within ideal range (8-15%)",
-        "All stability margins within acceptable limits"
-      ],
-      "score": 0.71,
-      "score_breakdown": {
-        "robustness": 0.65,
-        "low_drag": 0.95,
-        "low_mass": 0.65,
-        "simplicity": 0.55,
-        "checks_penalty": 0.0
-      }
-    },
-    {
-      "config": "taildragger",
       "gear_type": "fixed",
       "wheel_count_main": 1,
       "wheel_count_nose_or_tail": 1,
       "geometry": {
-        "track_m": {"min": 1.92, "max": 2.99},
-        "wheelbase_m": {"min": 4.98, "max": 6.80},
-        "main_strut_length_m": {"min": 0.40, "max": 0.55},
-        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
-        "stroke_m": {"min": 0.14, "max": 0.17}
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.095,
+          "max": 0.10500000000000001
+        }
       },
       "tire_suggestion": {
-        "required_static_load_per_wheel_N": 8100.0,
-        "required_dynamic_load_per_wheel_N": 16470.0,
-        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
-        "suggested_tire_width_m": null
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 24844.422337837845,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ]
       },
       "loads": {
-        "static_nose_or_tail_load_N": 396.2,
-        "static_main_load_total_N": 10781.6,
-        "static_main_load_per_wheel_N": 5390.8,
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
         "landing_energy_J": 2280.0,
-        "required_avg_force_N": 18562.5,
-        "nose_load_fraction": 0.035
+        "required_avg_force_N": 28499.999999999993,
+        "nose_load_fraction": 0.16516516516516486
       },
       "checks": {
         "tip_back_margin": {
           "passed": true,
-          "value": 0.082,
-          "limit": 0.05,
-          "description": "CG forward of main gear by 8.2% of wheelbase"
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
         },
         "nose_over_margin": {
           "passed": true,
-          "value": 1.0,
-          "limit": 0.0,
-          "description": "Nose-over check not applicable for taildragger configuration"
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
         },
         "ground_clearance_ok": true,
         "lateral_stability_ok": true,
-        "prop_clearance_ok": true
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5967741935483871,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
       },
       "explanation": [
-        "Taildragger configuration offers simplicity and lighter weight",
+        "Tricycle configuration provides good forward visibility and ground handling",
         "Fixed gear selected for simplicity, lower cost, and easier maintenance",
         "Single wheel per main leg appropriate for aircraft weight class",
-        "Tail load fraction of 3.5% is typical for taildragger",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
         "All stability margins within acceptable limits"
       ],
-      "score": 0.68,
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
       "score_breakdown": {
-        "robustness": 0.70,
-        "low_drag": 0.60,
-        "low_mass": 0.90,
-        "simplicity": 0.95,
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.095,
+          "max": 0.10500000000000001
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 24844.422337837845,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 28499.999999999993,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5967741935483871,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.14250000000000002,
+          "max": 0.15750000000000003
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 18896.224139639642,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          },
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18999.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5867768595041322,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.14250000000000002,
+          "max": 0.15750000000000003
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 18896.224139639642,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          },
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18999.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5867768595041322,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
         "checks_penalty": 0.0
       }
     }
   ],
   "assumptions": [
-    "Fuselage length estimated at 9.05m from MTOW correlation",
-    "CG height estimated at 1.10m from weight and wing position",
-    "Touchdown energy: 2280J from sink rate 2.0 m/s",
+    "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
     "Static load distribution assumes rigid body equilibrium",
-    "Dynamic loads use simplified energy-based model",
+    "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
     "Shock absorber efficiency assumed at 80%",
-    "Braking deceleration assumed at 0.4g for nose-over check"
+    "Braking deceleration assumed at 0.4g for nose-over check",
+    "Tire sizing is approximate; actual selection requires manufacturer data"
   ],
   "warnings": []
 }
-

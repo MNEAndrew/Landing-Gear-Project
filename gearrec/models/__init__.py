@@ -10,11 +10,16 @@ from gearrec.models.outputs import (
     GeometryRange,
     Geometry,
     TireSuggestion,
+    CatalogTire,
     Loads,
     CheckResult,
+    CGSensitivity,
     Checks,
     ScoreBreakdown,
     RecommendationResult,
+    SweepPoint,
+    ConceptSweepResult,
+    SweepResult,
 )
 
 __all__ = [
@@ -27,10 +32,14 @@ __all__ = [
     "GeometryRange",
     "Geometry",
     "TireSuggestion",
+    "CatalogTire",
     "Loads",
     "CheckResult",
+    "CGSensitivity",
     "Checks",
     "ScoreBreakdown",
     "RecommendationResult",
+    "SweepPoint",
+    "ConceptSweepResult",
+    "SweepResult",
 ]
-

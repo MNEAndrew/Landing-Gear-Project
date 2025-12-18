@@ -6,6 +6,12 @@ configurations based on aircraft parameters.
 
 WARNING: This tool provides rough conceptual estimates only. Not for certification
 or detailed design purposes.
+
+Usage:
+    python -m gearrec make-example
+    python -m gearrec recommend --input example_input.json
+    python -m gearrec sweep --input example_input.json
+    python -m gearrec serve --port 8000
 """
 
 __version__ = "0.1.0"
@@ -17,6 +23,7 @@ from gearrec.models.outputs import (
     GearConfig,
     GearType,
     RecommendationResult,
+    SweepResult,
 )
 from gearrec.generator.candidates import GearGenerator
 
@@ -28,6 +35,6 @@ __all__ = [
     "GearConfig",
     "GearType",
     "RecommendationResult",
+    "SweepResult",
     "GearGenerator",
 ]
-

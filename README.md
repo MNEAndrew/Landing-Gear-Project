@@ -16,16 +16,21 @@ Always consult qualified aerospace engineers and follow applicable regulations (
 
 - **Multiple configurations**: Generates tricycle (fixed/retractable) and taildragger options
 - **Physics-based sizing**: Uses simplified but documented models for loads, energy absorption, and geometry
-- **Unit-aware calculations**: All physics use [pint](https://pint.readthedocs.io/) for dimensional correctness
+- **Unit-aware calculations**: Physics calculations use [pint](https://pint.readthedocs.io/) for dimensional correctness
+- **Tire catalog matching**: Includes internal tire catalog with matching logic
 - **Configurable scoring**: Weight design priorities (robustness, drag, mass, simplicity)
-- **Safety checks**: Validates tip-back, nose-over, and ground clearance margins
-- **CLI & API**: Command-line interface plus optional FastAPI web service
+- **Safety checks**: Validates tip-back, nose-over, rollover, and ground clearance margins
+- **Sensitivity sweep**: Analyze robustness across sink rates and CG positions
+- **CLI & API**: Command-line interface plus FastAPI web service with HTML UI
 
 ## Installation
 
 ```bash
-# Clone and install in development mode
-cd "Landing Gear Project"
+# Clone the repository
+git clone https://github.com/MNEAndrew/Landing-Gear-Project.git
+cd "Landing-Gear-Project"
+
+# Install in development mode
 pip install -e ".[dev]"
 ```
 
@@ -48,11 +53,18 @@ python -m gearrec recommend --input example_input.json
 python -m gearrec recommend --input example_input.json --output results.json
 ```
 
-### Start web API (optional)
+### Run sensitivity sweep
+```bash
+python -m gearrec sweep --input example_input.json
+# Outputs sweep analysis across sink rates and CG positions
+```
+
+### Start web API with HTML UI
 ```bash
 python -m gearrec serve --port 8000
 # API available at http://localhost:8000
-# Docs at http://localhost:8000/docs
+# HTML UI at http://localhost:8000/
+# API docs at http://localhost:8000/docs
 ```
 
 ## Input Parameters
@@ -64,6 +76,8 @@ python -m gearrec serve --port 8000
 | `mlw_kg` | float | No | 0.95×MTOW | Maximum landing weight (kg) |
 | `cg_fwd_m` | float | Yes | - | Forward CG limit from datum (m) |
 | `cg_aft_m` | float | Yes | - | Aft CG limit from datum (m) |
+| `cg_height_m` | float | No | estimated | CG height above ground (m) |
+| `fuselage_length_m` | float | No | estimated | Fuselage length (m) |
 | `main_gear_attach_guess_m` | float | No | auto | Main gear attachment point from datum (m) |
 | `nose_gear_attach_guess_m` | float | No | auto | Nose gear attachment point from datum (m) |
 | `landing_speed_mps` | float | Yes | - | Landing approach speed (m/s) |
@@ -71,14 +85,15 @@ python -m gearrec serve --port 8000
 | `runway` | enum | No | paved | Runway surface: paved, grass, gravel |
 | `retractable` | bool | No | false | Whether retractable gear is required |
 | `prop_clearance_m` | float | No | 0.0 | Required propeller ground clearance (m) |
-| `wing_low` | bool | No | false | Low-wing configuration (affects tip clearance) |
+| `wing_low` | bool | No | true | Low-wing configuration |
 | `tire_pressure_limit_kpa` | float | No | None | Maximum allowable tire pressure (kPa) |
 | `max_gear_mass_kg` | float | No | None | Maximum gear system mass constraint (kg) |
+| `brake_decel_g` | float | No | 0.4 | Assumed braking deceleration (g's) |
 | `design_priorities` | dict | No | equal | Weights for {robustness, low_drag, low_mass, simplicity} |
 
 ## Output Structure
 
-Each candidate includes:
+Each candidate concept includes:
 
 ```json
 {
@@ -88,39 +103,41 @@ Each candidate includes:
   "wheel_count_nose_or_tail": 1,
   "geometry": {
     "track_m": {"min": 2.0, "max": 2.5},
-    "wheelbase_m": {"min": 4.0, "max": 5.0},
+    "wheelbase_m": {"min": 2.5, "max": 3.5},
     "main_strut_length_m": {"min": 0.4, "max": 0.6},
     "nose_or_tail_strut_length_m": {"min": 0.3, "max": 0.5},
-    "stroke_m": {"min": 0.15, "max": 0.25}
+    "stroke_m": {"min": 0.15, "max": 0.20}
   },
   "tire_suggestion": {
-    "required_static_load_per_wheel_N": 12000,
-    "required_dynamic_load_per_wheel_N": 24000,
-    "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.45}
+    "required_static_load_per_wheel_N": 7500,
+    "required_dynamic_load_per_wheel_N": 15000,
+    "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.45},
+    "recommended_tire_width_range_m": {"min": 0.12, "max": 0.16},
+    "matched_catalog_tires": [{"name": "6.00-6", ...}]
   },
   "loads": {
-    "static_nose_load_N": 4000,
-    "static_main_load_N": 36000,
-    "landing_energy_J": 8000,
-    "required_avg_force_N": 40000
+    "weight_N": 11178,
+    "static_nose_or_tail_load_N": 1200,
+    "static_main_load_total_N": 9978,
+    "static_main_load_per_wheel_N": 4989,
+    "landing_energy_J": 2280,
+    "required_avg_force_N": 14250,
+    "nose_load_fraction": 0.107
   },
   "checks": {
-    "tip_back_margin": {"passed": true, "value": 0.15},
-    "nose_over_margin": {"passed": true, "value": 0.12},
-    "ground_clearance_ok": true
+    "tip_back_margin": {"passed": true, "value": 0.15, "limit": 0.10},
+    "nose_over_margin": {"passed": true, "value": 0.25, "limit": 0.08},
+    "ground_clearance_ok": true,
+    "lateral_stability_ok": true,
+    "prop_clearance_ok": true,
+    "rollover_angle_deg": 46.2,
+    "cg_range_sensitivity": {"pass_rate": 1.0, "worst_case_position": "aft"}
   },
-  "explanation": [
-    "Tricycle fixed gear selected for simplicity",
-    "Track width sized for rollover stability",
-    "..."
-  ],
+  "explanation": ["..."],
+  "assumptions": ["..."],
+  "input_summary": {"mtow_kg": 1200, ...},
   "score": 0.82,
-  "score_breakdown": {
-    "robustness": 0.85,
-    "low_drag": 0.70,
-    "low_mass": 0.90,
-    "simplicity": 0.95
-  }
+  "score_breakdown": {...}
 }
 ```
 
@@ -134,25 +151,25 @@ Where m is maximum landing weight.
 
 ### Required Shock Force
 ```
-F_avg = E / stroke
+F_avg = E / (stroke × efficiency)
 ```
-Stroke is the shock absorber travel distance.
+Efficiency assumed at 80%.
 
 ### Static Load Distribution (Tricycle)
 ```
 R_nose = W × (x_main - x_cg) / (x_main - x_nose)
 R_main = W - R_nose
 ```
-Where x positions are measured from datum.
 
 ### Geometry Heuristics
-- **Track**: 0.18–0.28 × estimated fuselage length
-- **Wheelbase**: 0.25–0.35 × estimated fuselage length
-- **Fuselage length estimate**: k × MTOW^(1/3), k ≈ 0.8 for GA aircraft
+- **Fuselage length** (if not provided): `k × MTOW^(1/3)`, k ≈ 0.85
+- **Track**: 0.18–0.28 × fuselage length
+- **Wheelbase**: 0.25–0.38 × fuselage length (tricycle)
 
 ### Safety Checks
 - **Tip-back**: CG must be forward of main gear by margin
-- **Nose-over**: Under 0.4g braking, gear must not flip
+- **Nose-over**: Under braking (default 0.4g), gear must not flip
+- **Rollover**: Track vs CG height angle check
 - **Ground clearance**: Propeller and structure clearance
 
 ## Project Structure
@@ -162,35 +179,53 @@ gearrec/
 ├── __init__.py
 ├── __main__.py
 ├── models/           # Pydantic data models
-│   ├── __init__.py
-│   ├── inputs.py     # Aircraft input parameters
-│   └── outputs.py    # Gear concept outputs
+│   ├── inputs.py     # AircraftInputs
+│   └── outputs.py    # GearConcept, SweepResult
 ├── physics/          # Unit-aware calculations
-│   ├── __init__.py
 │   ├── units.py      # Pint unit registry
 │   ├── energy.py     # Energy & force calculations
 │   ├── loads.py      # Load distribution
-│   └── geometry.py   # Geometry heuristics
+│   ├── geometry.py   # Geometry heuristics
+│   └── tire_catalog.py  # Tire catalog & matching
 ├── generator/        # Candidate generation
-│   ├── __init__.py
-│   └── candidates.py
+│   └── candidates.py # GearGenerator with sweep
 ├── scoring/          # Scoring system
-│   ├── __init__.py
 │   └── scorer.py
 ├── cli/              # Command-line interface
-│   ├── __init__.py
 │   └── main.py
 └── api/              # FastAPI web interface
-    ├── __init__.py
-    └── server.py
+    └── server.py     # REST API + HTML UI
 ```
 
 ## Running Tests
 
 ```bash
-pytest
-pytest --cov=gearrec  # With coverage
+pytest                    # Run all tests
+pytest -v                 # Verbose output
+pytest --cov=gearrec      # With coverage
 ```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | HTML UI |
+| GET | `/health` | Health check |
+| GET | `/example` | Get example input |
+| POST | `/recommend` | Generate recommendations |
+| POST | `/sweep` | Run sensitivity sweep |
+| GET | `/runway-types` | List runway types |
+
+## Sweep Analysis
+
+The sweep command evaluates each concept across:
+- Multiple sink rates (around the input value)
+- CG positions (forward, mid, aft)
+
+Results include:
+- `pass_rate`: Fraction of conditions passing all checks
+- `avg_score`, `worst_case_score`, `best_case_score`
+- `most_robust_concept`: Best overall robustness
 
 ## License
 
@@ -199,4 +234,3 @@ MIT License - See LICENSE file for details.
 ## Contributing
 
 This is a conceptual tool for educational and preliminary design purposes. Contributions that improve the physics models, add configuration options, or enhance documentation are welcome.
-

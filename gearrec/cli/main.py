@@ -4,206 +4,113 @@ Command-line interface for landing gear recommender.
 Usage:
     python -m gearrec recommend --input example.json [--output results.json]
     python -m gearrec make-example [--output example_input.json]
+    python -m gearrec sweep --input example.json [--output sweep_output.json]
     python -m gearrec serve [--port 8000]
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
 
-import click
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
-from rich.text import Text
-
 from gearrec.models.inputs import AircraftInputs, RunwayType, DesignPriorities
 from gearrec.generator.candidates import GearGenerator
 
-console = Console()
+
+def create_parser() -> argparse.ArgumentParser:
+    """Create the argument parser."""
+    parser = argparse.ArgumentParser(
+        prog="gearrec",
+        description="Landing Gear Recommender - Conceptual sizing tool for aircraft landing gear. "
+                    "WARNING: For conceptual sizing only, NOT for certification.",
+    )
+    parser.add_argument("--version", action="version", version="gearrec 0.1.0")
+    
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    
+    # make-example command
+    example_parser = subparsers.add_parser(
+        "make-example",
+        help="Generate an example input JSON file",
+    )
+    example_parser.add_argument(
+        "--output", "-o",
+        type=Path,
+        default=Path("example_input.json"),
+        help="Output path for example file (default: example_input.json)",
+    )
+    
+    # recommend command
+    recommend_parser = subparsers.add_parser(
+        "recommend",
+        help="Generate landing gear recommendations",
+    )
+    recommend_parser.add_argument(
+        "--input", "-i",
+        type=Path,
+        required=True,
+        help="Path to JSON input file with aircraft parameters",
+    )
+    recommend_parser.add_argument(
+        "--output", "-o",
+        type=Path,
+        default=None,
+        help="Path to save JSON output (prints to stdout if not specified)",
+    )
+    
+    # sweep command
+    sweep_parser = subparsers.add_parser(
+        "sweep",
+        help="Run sensitivity sweep across sink rates and CG positions",
+    )
+    sweep_parser.add_argument(
+        "--input", "-i",
+        type=Path,
+        required=True,
+        help="Path to JSON input file with aircraft parameters",
+    )
+    sweep_parser.add_argument(
+        "--output", "-o",
+        type=Path,
+        default=None,
+        help="Path to save sweep results (prints to stdout if not specified)",
+    )
+    
+    # serve command
+    serve_parser = subparsers.add_parser(
+        "serve",
+        help="Start the FastAPI web server",
+    )
+    serve_parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Host to bind to (default: 127.0.0.1)",
+    )
+    serve_parser.add_argument(
+        "--port", "-p",
+        type=int,
+        default=8000,
+        help="Port to listen on (default: 8000)",
+    )
+    serve_parser.add_argument(
+        "--reload",
+        action="store_true",
+        help="Enable auto-reload for development",
+    )
+    
+    return parser
 
 
-@click.group()
-@click.version_option(version="0.1.0", prog_name="gearrec")
-def cli():
-    """
-    Landing Gear Recommender - Conceptual sizing tool for aircraft landing gear.
-    
-    WARNING: This tool provides rough conceptual estimates only.
-    Not for certification or detailed design purposes.
-    """
-    pass
-
-
-@cli.command()
-@click.option(
-    "--input", "-i",
-    "input_file",
-    required=True,
-    type=click.Path(exists=True, path_type=Path),
-    help="Path to JSON input file with aircraft parameters",
-)
-@click.option(
-    "--output", "-o",
-    "output_file",
-    type=click.Path(path_type=Path),
-    default=None,
-    help="Optional path to save JSON output",
-)
-@click.option(
-    "--format", "-f",
-    "output_format",
-    type=click.Choice(["json", "table"]),
-    default="json",
-    help="Output format (json or table)",
-)
-def recommend(input_file: Path, output_file: Path | None, output_format: str):
-    """
-    Generate landing gear recommendations from input parameters.
-    
-    Reads aircraft parameters from a JSON file and outputs 3-6 candidate
-    gear configurations with geometry, loads, and scoring.
-    """
-    try:
-        # Load input
-        with open(input_file) as f:
-            input_data = json.load(f)
-        
-        # Parse and validate
-        inputs = AircraftInputs(**input_data)
-        
-        console.print(f"\n[bold blue]Landing Gear Recommender[/bold blue]")
-        console.print(f"Aircraft: [bold]{inputs.aircraft_name}[/bold]")
-        console.print(f"MTOW: {inputs.mtow_kg:.0f} kg | Landing Speed: {inputs.landing_speed_mps:.1f} m/s")
-        console.print()
-        
-        # Generate recommendations
-        with console.status("[bold green]Generating gear concepts..."):
-            generator = GearGenerator(inputs)
-            result = generator.generate_result()
-        
-        # Output results
-        if output_format == "table":
-            _print_table_output(result)
-        else:
-            output_json = result.model_dump_json(indent=2)
-            
-            if output_file:
-                with open(output_file, "w") as f:
-                    f.write(output_json)
-                console.print(f"\n[green]Results saved to {output_file}[/green]")
-            else:
-                print(output_json)
-        
-        # Print summary
-        console.print(f"\n[bold]Summary:[/bold] Generated {len(result.concepts)} concepts")
-        passing = len([c for c in result.concepts if c.all_checks_passed])
-        console.print(f"  Passing all checks: {passing}")
-        console.print(f"  Best score: {result.best_concept.score:.2f}")
-        
-        if result.warnings:
-            console.print("\n[bold yellow]Warnings:[/bold yellow]")
-            for w in result.warnings:
-                console.print(f"  • {w}")
-        
-    except json.JSONDecodeError as e:
-        console.print(f"[bold red]Error:[/bold red] Invalid JSON in {input_file}: {e}")
-        sys.exit(1)
-    except ValueError as e:
-        console.print(f"[bold red]Validation Error:[/bold red] {e}")
-        sys.exit(1)
-    except Exception as e:
-        console.print(f"[bold red]Error:[/bold red] {e}")
-        sys.exit(1)
-
-
-def _print_table_output(result):
-    """Print results as formatted tables."""
-    from gearrec.models.outputs import RecommendationResult
-    
-    # Summary table
-    console.print("\n[bold]Gear Concepts[/bold]")
-    
-    table = Table(show_header=True, header_style="bold magenta")
-    table.add_column("#", style="dim", width=3)
-    table.add_column("Config", width=12)
-    table.add_column("Type", width=12)
-    table.add_column("Wheels", width=8)
-    table.add_column("Track (m)", width=10)
-    table.add_column("Wheelbase (m)", width=12)
-    table.add_column("Score", width=8)
-    table.add_column("Checks", width=8)
-    
-    for i, concept in enumerate(result.concepts, 1):
-        checks_status = "✓ Pass" if concept.all_checks_passed else "✗ Fail"
-        checks_style = "green" if concept.all_checks_passed else "red"
-        
-        table.add_row(
-            str(i),
-            concept.config.value.title(),
-            concept.gear_type.value.title(),
-            f"{concept.wheel_count_main}M/{concept.wheel_count_nose_or_tail}N",
-            f"{concept.geometry.track_m.min:.2f}-{concept.geometry.track_m.max:.2f}",
-            f"{concept.geometry.wheelbase_m.min:.2f}-{concept.geometry.wheelbase_m.max:.2f}",
-            f"{concept.score:.2f}",
-            Text(checks_status, style=checks_style),
-        )
-    
-    console.print(table)
-    
-    # Detailed view of best concept
-    best = result.best_concept
-    console.print(f"\n[bold]Best Concept Details ({best.config.value.title()} {best.gear_type.value.title()})[/bold]")
-    
-    details_table = Table(show_header=False, box=None, padding=(0, 2))
-    details_table.add_column("Parameter", style="cyan")
-    details_table.add_column("Value")
-    
-    details_table.add_row("Track", f"{best.geometry.track_m.min:.2f} - {best.geometry.track_m.max:.2f} m")
-    details_table.add_row("Wheelbase", f"{best.geometry.wheelbase_m.min:.2f} - {best.geometry.wheelbase_m.max:.2f} m")
-    details_table.add_row("Main Strut", f"{best.geometry.main_strut_length_m.min:.2f} - {best.geometry.main_strut_length_m.max:.2f} m")
-    details_table.add_row("Stroke", f"{best.geometry.stroke_m.min:.2f} - {best.geometry.stroke_m.max:.2f} m")
-    details_table.add_row("", "")
-    details_table.add_row("Static Main Load", f"{best.loads.static_main_load_total_N:.0f} N")
-    details_table.add_row("Per-Wheel Load", f"{best.loads.static_main_load_per_wheel_N:.0f} N")
-    details_table.add_row("Landing Energy", f"{best.loads.landing_energy_J:.0f} J")
-    details_table.add_row("", "")
-    details_table.add_row("Tire Diameter", f"{best.tire_suggestion.recommended_tire_diameter_range_m.min:.2f} - {best.tire_suggestion.recommended_tire_diameter_range_m.max:.2f} m")
-    
-    console.print(details_table)
-    
-    # Explanation
-    console.print("\n[bold]Explanation:[/bold]")
-    for point in best.explanation:
-        console.print(f"  • {point}")
-    
-    # Assumptions
-    console.print("\n[bold dim]Assumptions:[/bold dim]")
-    for assumption in result.assumptions[:4]:  # Show first 4
-        console.print(f"  [dim]• {assumption}[/dim]")
-
-
-@cli.command("make-example")
-@click.option(
-    "--output", "-o",
-    "output_file",
-    type=click.Path(path_type=Path),
-    default=Path("example_input.json"),
-    help="Output path for example input file",
-)
-def make_example(output_file: Path):
-    """
-    Generate an example input JSON file.
-    
-    Creates a sample input file with typical GA aircraft parameters
-    that can be modified and used with the recommend command.
-    """
+def cmd_make_example(args: argparse.Namespace) -> int:
+    """Generate an example input JSON file."""
     example = AircraftInputs(
         aircraft_name="GA-2024 Trainer",
         mtow_kg=1200.0,
         mlw_kg=1140.0,
         cg_fwd_m=2.10,
         cg_aft_m=2.45,
+        cg_height_m=1.10,
+        fuselage_length_m=8.5,
         main_gear_attach_guess_m=2.55,
         nose_gear_attach_guess_m=0.80,
         landing_speed_mps=28.0,
@@ -214,6 +121,9 @@ def make_example(output_file: Path):
         wing_low=True,
         tire_pressure_limit_kpa=None,
         max_gear_mass_kg=None,
+        takeoff_distance_m=500.0,
+        landing_distance_m=450.0,
+        brake_decel_g=0.4,
         design_priorities=DesignPriorities(
             robustness=1.0,
             low_drag=0.5,
@@ -222,63 +132,163 @@ def make_example(output_file: Path):
         ),
     )
     
-    # Convert to dict and write
     output_json = example.model_dump_json(indent=2)
     
-    with open(output_file, "w") as f:
+    with open(args.output, "w") as f:
         f.write(output_json)
     
-    console.print(f"[green]Created example input file: {output_file}[/green]")
-    console.print("\nExample contents:")
-    console.print(Panel(output_json, title="example_input.json", border_style="blue"))
-    console.print("\n[dim]Edit this file and run:[/dim]")
-    console.print(f"  python -m gearrec recommend --input {output_file}")
-
-
-@cli.command()
-@click.option(
-    "--host",
-    default="127.0.0.1",
-    help="Host to bind to",
-)
-@click.option(
-    "--port", "-p",
-    default=8000,
-    help="Port to listen on",
-)
-@click.option(
-    "--reload",
-    is_flag=True,
-    help="Enable auto-reload for development",
-)
-def serve(host: str, port: int, reload: bool):
-    """
-    Start the FastAPI web server.
+    print(f"Created example input file: {args.output}")
+    print("\nRun recommendation with:")
+    print(f"  python -m gearrec recommend --input {args.output}")
     
-    Provides a REST API for gear recommendations at http://host:port/
-    API documentation available at http://host:port/docs
-    """
+    return 0
+
+
+def cmd_recommend(args: argparse.Namespace) -> int:
+    """Generate landing gear recommendations."""
+    try:
+        # Load input
+        with open(args.input) as f:
+            input_data = json.load(f)
+        
+        # Parse and validate
+        inputs = AircraftInputs(**input_data)
+        
+        print(f"\nLanding Gear Recommender", file=sys.stderr)
+        print(f"Aircraft: {inputs.aircraft_name}", file=sys.stderr)
+        print(f"MTOW: {inputs.mtow_kg:.0f} kg | Landing Speed: {inputs.landing_speed_mps:.1f} m/s", file=sys.stderr)
+        print("Generating concepts...", file=sys.stderr)
+        
+        # Generate recommendations
+        generator = GearGenerator(inputs)
+        result = generator.generate_result()
+        
+        # Output results
+        output_json = result.model_dump_json(indent=2)
+        
+        if args.output:
+            with open(args.output, "w") as f:
+                f.write(output_json)
+            print(f"\nResults saved to {args.output}", file=sys.stderr)
+        else:
+            print(output_json)
+        
+        # Print summary to stderr
+        print(f"\nSummary: Generated {len(result.concepts)} concepts", file=sys.stderr)
+        passing = len([c for c in result.concepts if c.all_checks_passed])
+        print(f"  Passing all checks: {passing}", file=sys.stderr)
+        print(f"  Best score: {result.best_concept.score:.2f}", file=sys.stderr)
+        
+        if result.warnings:
+            print("\nWarnings:", file=sys.stderr)
+            for w in result.warnings:
+                print(f"  - {w}", file=sys.stderr)
+        
+        return 0
+        
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in {args.input}: {e}", file=sys.stderr)
+        return 1
+    except ValueError as e:
+        print(f"Validation Error: {e}", file=sys.stderr)
+        return 1
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+
+
+def cmd_sweep(args: argparse.Namespace) -> int:
+    """Run sensitivity sweep."""
+    try:
+        # Load input
+        with open(args.input) as f:
+            input_data = json.load(f)
+        
+        inputs = AircraftInputs(**input_data)
+        
+        print(f"\nSensitivity Sweep", file=sys.stderr)
+        print(f"Aircraft: {inputs.aircraft_name}", file=sys.stderr)
+        print("Running sweep...", file=sys.stderr)
+        
+        # Run sweep
+        generator = GearGenerator(inputs)
+        result = generator.run_sweep()
+        
+        # Output results
+        output_json = result.model_dump_json(indent=2)
+        
+        if args.output:
+            with open(args.output, "w") as f:
+                f.write(output_json)
+            print(f"\nSweep results saved to {args.output}", file=sys.stderr)
+        else:
+            print(output_json)
+        
+        # Print summary
+        print(f"\nSweep Summary:", file=sys.stderr)
+        print(f"  Sink rates: {result.sink_rates_swept}", file=sys.stderr)
+        print(f"  CG positions: {[f'{x:.2f}' for x in result.cg_positions_swept]}", file=sys.stderr)
+        print(f"  Most robust concept: {result.most_robust_concept}", file=sys.stderr)
+        
+        for cr in result.concept_results:
+            print(f"  {cr.config.value} {cr.gear_type.value}: "
+                  f"pass_rate={cr.pass_rate:.0%}, avg_score={cr.avg_score:.2f}", file=sys.stderr)
+        
+        return 0
+        
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+
+
+def cmd_serve(args: argparse.Namespace) -> int:
+    """Start the FastAPI web server."""
     try:
         import uvicorn
-        from gearrec.api.server import app
         
-        console.print(f"\n[bold blue]Starting Landing Gear Recommender API[/bold blue]")
-        console.print(f"API: http://{host}:{port}/")
-        console.print(f"Docs: http://{host}:{port}/docs")
-        console.print("\nPress Ctrl+C to stop\n")
+        print(f"\nStarting Landing Gear Recommender API", file=sys.stderr)
+        print(f"API: http://{args.host}:{args.port}/", file=sys.stderr)
+        print(f"Docs: http://{args.host}:{args.port}/docs", file=sys.stderr)
+        print(f"UI: http://{args.host}:{args.port}/", file=sys.stderr)
+        print("\nPress Ctrl+C to stop\n", file=sys.stderr)
         
         uvicorn.run(
             "gearrec.api.server:app",
-            host=host,
-            port=port,
-            reload=reload,
+            host=args.host,
+            port=args.port,
+            reload=args.reload,
         )
+        return 0
+        
     except ImportError as e:
-        console.print(f"[bold red]Error:[/bold red] Missing dependency: {e}")
-        console.print("Install with: pip install uvicorn fastapi")
-        sys.exit(1)
+        print(f"Error: Missing dependency: {e}", file=sys.stderr)
+        print("Install with: pip install uvicorn fastapi", file=sys.stderr)
+        return 1
+
+
+def cli():
+    """Main CLI entry point."""
+    parser = create_parser()
+    args = parser.parse_args()
+    
+    if args.command is None:
+        parser.print_help()
+        return 0
+    
+    commands = {
+        "make-example": cmd_make_example,
+        "recommend": cmd_recommend,
+        "sweep": cmd_sweep,
+        "serve": cmd_serve,
+    }
+    
+    handler = commands.get(args.command)
+    if handler:
+        return handler(args)
+    else:
+        parser.print_help()
+        return 1
 
 
 if __name__ == "__main__":
-    cli()
-
+    sys.exit(cli())
