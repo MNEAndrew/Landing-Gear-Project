@@ -30,6 +30,10 @@ jobs:
       - name: Run tests
         run: pytest
 
+      - name: Clean build outputs
+        run: |
+          rm -rf dist build
+
       - name: Get version
         id: version
         shell: bash

@@ -6,14 +6,18 @@ Outputs to dist/gearrec-<os>-<arch>/gearrec[.exe]
 
 import platform
 from pathlib import Path
-from PyInstaller.utils.hooks import collect_submodules, collect_data_files
+from PyInstaller.utils.hooks import collect_submodules
 
 block_cipher = None
 
 _spec_file = Path(globals().get("__file__", Path.cwd() / "packaging/pyinstaller/gearrec.spec"))
 project_root = _spec_file.resolve().parents[2] if _spec_file.exists() else Path.cwd()
 
-datas = collect_data_files("gearrec", includes=["data/*.json"])
+data_dir = project_root / "gearrec" / "data"
+datas = [
+    (str(data_dir / "goodyear_2022_tires.json"), "gearrec/data"),
+    (str(data_dir / "goodyear_2022_applications.json"), "gearrec/data"),
+]
 hiddenimports = collect_submodules("gearrec")
 
 a = Analysis(
