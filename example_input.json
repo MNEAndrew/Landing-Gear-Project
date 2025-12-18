@@ -1,0 +1,24 @@
+{
+  "aircraft_name": "GA-2024 Trainer",
+  "mtow_kg": 1200.0,
+  "mlw_kg": 1140.0,
+  "cg_fwd_m": 2.10,
+  "cg_aft_m": 2.45,
+  "main_gear_attach_guess_m": 2.55,
+  "nose_gear_attach_guess_m": 0.80,
+  "landing_speed_mps": 28.0,
+  "sink_rate_mps": 2.0,
+  "runway": "paved",
+  "retractable": false,
+  "prop_clearance_m": 0.25,
+  "wing_low": true,
+  "tire_pressure_limit_kpa": null,
+  "max_gear_mass_kg": null,
+  "design_priorities": {
+    "robustness": 1.0,
+    "low_drag": 0.5,
+    "low_mass": 1.0,
+    "simplicity": 1.5
+  }
+}
+

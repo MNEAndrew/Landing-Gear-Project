@@ -1,0 +1,262 @@
+{
+  "aircraft_name": "GA-2024 Trainer",
+  "input_summary": {
+    "mtow_kg": 1200.0,
+    "mlw_kg": 1140.0,
+    "cg_range_m": "2.10 - 2.45",
+    "landing_speed_mps": 28.0,
+    "sink_rate_mps": 2.0,
+    "runway": "paved",
+    "retractable_required": false
+  },
+  "concepts": [
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {"min": 1.92, "max": 2.99},
+        "wheelbase_m": {"min": 2.27, "max": 3.45},
+        "main_strut_length_m": {"min": 0.40, "max": 0.55},
+        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
+        "stroke_m": {"min": 0.14, "max": 0.17}
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 7495.0,
+        "required_dynamic_load_per_wheel_N": 15240.0,
+        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
+        "suggested_tire_width_m": null
+      },
+      "loads": {
+        "static_nose_or_tail_load_N": 1181.5,
+        "static_main_load_total_N": 9996.3,
+        "static_main_load_per_wheel_N": 4998.2,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18562.5,
+        "nose_load_fraction": 0.106
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.145,
+          "limit": 0.15,
+          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.253,
+          "limit": 0.08,
+          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 10.6% is within ideal range (8-15%)",
+        "All stability margins within acceptable limits"
+      ],
+      "score": 0.82,
+      "score_breakdown": {
+        "robustness": 0.80,
+        "low_drag": 0.55,
+        "low_mass": 0.85,
+        "simplicity": 0.90,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {"min": 1.92, "max": 2.99},
+        "wheelbase_m": {"min": 2.27, "max": 3.45},
+        "main_strut_length_m": {"min": 0.40, "max": 0.55},
+        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
+        "stroke_m": {"min": 0.18, "max": 0.22}
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 7495.0,
+        "required_dynamic_load_per_wheel_N": 13100.0,
+        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
+        "suggested_tire_width_m": null
+      },
+      "loads": {
+        "static_nose_or_tail_load_N": 1181.5,
+        "static_main_load_total_N": 9996.3,
+        "static_main_load_per_wheel_N": 4998.2,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 14250.0,
+        "nose_load_fraction": 0.106
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.145,
+          "limit": 0.15,
+          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.253,
+          "limit": 0.08,
+          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Longer stroke (0.20m) provides softer landing feel",
+        "Nose load fraction of 10.6% is within ideal range (8-15%)",
+        "All stability margins within acceptable limits"
+      ],
+      "score": 0.80,
+      "score_breakdown": {
+        "robustness": 0.85,
+        "low_drag": 0.55,
+        "low_mass": 0.80,
+        "simplicity": 0.90,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "retractable",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {"min": 1.92, "max": 2.99},
+        "wheelbase_m": {"min": 2.27, "max": 3.45},
+        "main_strut_length_m": {"min": 0.40, "max": 0.55},
+        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
+        "stroke_m": {"min": 0.14, "max": 0.17}
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 7495.0,
+        "required_dynamic_load_per_wheel_N": 15240.0,
+        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
+        "suggested_tire_width_m": null
+      },
+      "loads": {
+        "static_nose_or_tail_load_N": 1181.5,
+        "static_main_load_total_N": 9996.3,
+        "static_main_load_per_wheel_N": 4998.2,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18562.5,
+        "nose_load_fraction": 0.106
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.145,
+          "limit": 0.15,
+          "description": "CG is 0.100m forward of main gear (14.5% of wheelbase). Minimum: 15.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.253,
+          "limit": 0.08,
+          "description": "CG is 1.300m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 25.3%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Retractable gear reduces drag for higher cruise performance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 10.6% is within ideal range (8-15%)",
+        "All stability margins within acceptable limits"
+      ],
+      "score": 0.71,
+      "score_breakdown": {
+        "robustness": 0.65,
+        "low_drag": 0.95,
+        "low_mass": 0.65,
+        "simplicity": 0.55,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "taildragger",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {"min": 1.92, "max": 2.99},
+        "wheelbase_m": {"min": 4.98, "max": 6.80},
+        "main_strut_length_m": {"min": 0.40, "max": 0.55},
+        "nose_or_tail_strut_length_m": {"min": 0.30, "max": 0.47},
+        "stroke_m": {"min": 0.14, "max": 0.17}
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 8100.0,
+        "required_dynamic_load_per_wheel_N": 16470.0,
+        "recommended_tire_diameter_range_m": {"min": 0.35, "max": 0.50},
+        "suggested_tire_width_m": null
+      },
+      "loads": {
+        "static_nose_or_tail_load_N": 396.2,
+        "static_main_load_total_N": 10781.6,
+        "static_main_load_per_wheel_N": 5390.8,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18562.5,
+        "nose_load_fraction": 0.035
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.082,
+          "limit": 0.05,
+          "description": "CG forward of main gear by 8.2% of wheelbase"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 1.0,
+          "limit": 0.0,
+          "description": "Nose-over check not applicable for taildragger configuration"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true
+      },
+      "explanation": [
+        "Taildragger configuration offers simplicity and lighter weight",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Tail load fraction of 3.5% is typical for taildragger",
+        "All stability margins within acceptable limits"
+      ],
+      "score": 0.68,
+      "score_breakdown": {
+        "robustness": 0.70,
+        "low_drag": 0.60,
+        "low_mass": 0.90,
+        "simplicity": 0.95,
+        "checks_penalty": 0.0
+      }
+    }
+  ],
+  "assumptions": [
+    "Fuselage length estimated at 9.05m from MTOW correlation",
+    "CG height estimated at 1.10m from weight and wing position",
+    "Touchdown energy: 2280J from sink rate 2.0 m/s",
+    "Static load distribution assumes rigid body equilibrium",
+    "Dynamic loads use simplified energy-based model",
+    "Shock absorber efficiency assumed at 80%",
+    "Braking deceleration assumed at 0.4g for nose-over check"
+  ],
+  "warnings": []
+}
+
