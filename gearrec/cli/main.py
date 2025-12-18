@@ -2,9 +2,10 @@
 Command-line interface for landing gear recommender.
 
 Usage:
-    python -m gearrec recommend --input example.json [--output results.json]
+    python -m gearrec recommend --input example.json [--output results.json] [--use-pdf-tires]
     python -m gearrec make-example [--output example_input.json]
     python -m gearrec sweep --input example.json [--output sweep_output.json]
+    python -m gearrec import-tires --data-section ... --app-charts ...
     python -m gearrec serve [--port 8000]
 """
 
@@ -57,6 +58,11 @@ def create_parser() -> argparse.ArgumentParser:
         default=None,
         help="Path to save JSON output (prints to stdout if not specified)",
     )
+    recommend_parser.add_argument(
+        "--use-pdf-tires",
+        action="store_true",
+        help="Use PDF-based tire catalog (Goodyear) for tire selection",
+    )
     
     # sweep command
     sweep_parser = subparsers.add_parser(
@@ -74,6 +80,30 @@ def create_parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Path to save sweep results (prints to stdout if not specified)",
+    )
+    
+    # import-tires command
+    import_parser = subparsers.add_parser(
+        "import-tires",
+        help="Import tire data from Goodyear PDFs",
+    )
+    import_parser.add_argument(
+        "--data-section",
+        type=Path,
+        required=True,
+        help="Path to Goodyear Data Section PDF",
+    )
+    import_parser.add_argument(
+        "--app-charts",
+        type=Path,
+        required=True,
+        help="Path to Goodyear Application Charts PDF",
+    )
+    import_parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("data"),
+        help="Output directory for JSON files (default: data)",
     )
     
     # serve command
@@ -163,6 +193,71 @@ def cmd_recommend(args: argparse.Namespace) -> int:
         generator = GearGenerator(inputs)
         result = generator.generate_result()
         
+        # Apply PDF tire matching if requested
+        use_pdf_tires = getattr(args, 'use_pdf_tires', False)
+        if use_pdf_tires:
+            from gearrec.tire_catalog.loader import catalog_exists, load_tire_specs, load_applications
+            from gearrec.tire_catalog.matcher import choose_tires_for_concept
+            from gearrec.models.outputs import PDFMatchedTire
+            
+            if not catalog_exists():
+                print("\nError: Tire catalog not found.", file=sys.stderr)
+                print("Run 'python -m gearrec import-tires' first to generate it.", file=sys.stderr)
+                return 1
+            
+            print("Loading PDF tire catalog...", file=sys.stderr)
+            tire_specs = load_tire_specs()
+            try:
+                applications = load_applications()
+            except FileNotFoundError:
+                applications = []
+            
+            print(f"  Loaded {len(tire_specs)} tire specs, {len(applications)} applications", file=sys.stderr)
+            
+            # Match tires for each concept
+            for concept in result.concepts:
+                match_result = choose_tires_for_concept(
+                    concept, inputs, tire_specs, applications
+                )
+                
+                # Convert to PDFMatchedTire for output
+                main_tires = [
+                    PDFMatchedTire(
+                        size=m.tire.size,
+                        ply_rating=m.tire.ply_rating,
+                        rated_load_lbs=m.tire.rated_load_lbs,
+                        rated_inflation_psi=m.tire.rated_inflation_psi,
+                        outside_diameter_in=m.tire.outside_diameter_in,
+                        section_width_in=m.tire.section_width_in,
+                        margin_load=m.margin_load,
+                        score=m.score,
+                        reasons=m.reasons,
+                    )
+                    for m in match_result.main
+                ]
+                
+                nose_tires = [
+                    PDFMatchedTire(
+                        size=m.tire.size,
+                        ply_rating=m.tire.ply_rating,
+                        rated_load_lbs=m.tire.rated_load_lbs,
+                        rated_inflation_psi=m.tire.rated_inflation_psi,
+                        outside_diameter_in=m.tire.outside_diameter_in,
+                        section_width_in=m.tire.section_width_in,
+                        margin_load=m.margin_load,
+                        score=m.score,
+                        reasons=m.reasons,
+                    )
+                    for m in match_result.nose_or_tail
+                ]
+                
+                concept.tire_suggestion.matched_main_tires = main_tires if main_tires else None
+                concept.tire_suggestion.matched_nose_or_tail_tires = nose_tires if nose_tires else None
+                concept.tire_suggestion.tire_selection_notes = match_result.notes if match_result.notes else None
+                concept.tire_suggestion.tire_selection_warnings = match_result.warnings if match_result.warnings else None
+            
+            print("  Tire matching complete", file=sys.stderr)
+        
         # Output results
         output_json = result.model_dump_json(indent=2)
         
@@ -241,6 +336,46 @@ def cmd_sweep(args: argparse.Namespace) -> int:
         return 1
 
 
+def cmd_import_tires(args: argparse.Namespace) -> int:
+    """Import tire data from Goodyear PDFs."""
+    try:
+        from gearrec.tire_catalog.import_goodyear_2022 import run_import
+        
+        data_section = str(args.data_section)
+        app_charts = str(args.app_charts)
+        output_dir = str(args.output_dir)
+        
+        # Validate inputs exist
+        if not args.data_section.exists():
+            print(f"Error: Data section PDF not found: {data_section}", file=sys.stderr)
+            return 1
+        if not args.app_charts.exists():
+            print(f"Error: Application charts PDF not found: {app_charts}", file=sys.stderr)
+            return 1
+        
+        print(f"\nImporting Goodyear 2022 tire data...", file=sys.stderr)
+        print(f"  Data Section: {data_section}", file=sys.stderr)
+        print(f"  App Charts: {app_charts}", file=sys.stderr)
+        print(f"  Output Dir: {output_dir}", file=sys.stderr)
+        
+        tires_path, apps_path = run_import(data_section, app_charts, output_dir)
+        
+        print(f"\nImport complete!", file=sys.stderr)
+        print(f"  Tires: {tires_path}", file=sys.stderr)
+        print(f"  Applications: {apps_path}", file=sys.stderr)
+        print(f"\nYou can now use --use-pdf-tires with the recommend command.", file=sys.stderr)
+        
+        return 0
+        
+    except ImportError as e:
+        print(f"Error: Missing dependency: {e}", file=sys.stderr)
+        print("Install with: pip install pdfplumber", file=sys.stderr)
+        return 1
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     """Start the FastAPI web server."""
     try:
@@ -279,6 +414,7 @@ def cli():
         "make-example": cmd_make_example,
         "recommend": cmd_recommend,
         "sweep": cmd_sweep,
+        "import-tires": cmd_import_tires,
         "serve": cmd_serve,
     }
     

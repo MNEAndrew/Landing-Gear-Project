@@ -9,6 +9,9 @@ fastapi>=0.109.0
 uvicorn>=0.27.0
 httpx>=0.25.0
 
+# PDF parsing (for tire catalog import)
+pdfplumber>=0.10.0
+
 # Development dependencies
 pytest>=7.4.0
 pytest-cov>=4.1.0

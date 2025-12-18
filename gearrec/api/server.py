@@ -5,13 +5,14 @@ Provides REST API endpoints and simple HTML UI.
 WARNING: For conceptual sizing only, NOT for certification.
 """
 
-from fastapi import FastAPI, HTTPException
+from typing import Optional
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 from gearrec.models.inputs import AircraftInputs, RunwayType, DesignPriorities
-from gearrec.models.outputs import RecommendationResult, SweepResult
+from gearrec.models.outputs import RecommendationResult, SweepResult, PDFMatchedTire
 from gearrec.generator.candidates import GearGenerator
 
 # Create FastAPI app
@@ -432,19 +433,91 @@ async def get_example():
     )
 
 
+class RecommendRequest(BaseModel):
+    """Request body for recommend endpoint with optional tire matching."""
+    aircraft: AircraftInputs
+    use_pdf_tires: bool = False
+
+
 @app.post("/recommend", response_model=RecommendationResult, tags=["Recommendations"])
-async def recommend(inputs: AircraftInputs):
+async def recommend(
+    inputs: AircraftInputs,
+    use_pdf_tires: bool = Query(default=False, description="Use PDF-based Goodyear tire catalog"),
+):
     """
     Generate landing gear recommendations.
     
     Returns 3-6 candidate gear configurations ranked by score.
+    Optionally matches tires from PDF catalog if use_pdf_tires=true.
     """
     try:
         generator = GearGenerator(inputs)
         result = generator.generate_result()
+        
+        # Apply PDF tire matching if requested
+        if use_pdf_tires:
+            from gearrec.tire_catalog.loader import catalog_exists, load_tire_specs, load_applications
+            from gearrec.tire_catalog.matcher import choose_tires_for_concept
+            
+            if not catalog_exists():
+                raise HTTPException(
+                    status_code=400, 
+                    detail="Tire catalog not found. Run 'python -m gearrec import-tires' first."
+                )
+            
+            tire_specs = load_tire_specs()
+            try:
+                applications = load_applications()
+            except FileNotFoundError:
+                applications = []
+            
+            # Match tires for each concept
+            for concept in result.concepts:
+                match_result = choose_tires_for_concept(
+                    concept, inputs, tire_specs, applications
+                )
+                
+                # Convert to PDFMatchedTire for output
+                main_tires = [
+                    PDFMatchedTire(
+                        size=m.tire.size,
+                        ply_rating=m.tire.ply_rating,
+                        rated_load_lbs=m.tire.rated_load_lbs,
+                        rated_inflation_psi=m.tire.rated_inflation_psi,
+                        outside_diameter_in=m.tire.outside_diameter_in,
+                        section_width_in=m.tire.section_width_in,
+                        margin_load=m.margin_load,
+                        score=m.score,
+                        reasons=m.reasons,
+                    )
+                    for m in match_result.main
+                ]
+                
+                nose_tires = [
+                    PDFMatchedTire(
+                        size=m.tire.size,
+                        ply_rating=m.tire.ply_rating,
+                        rated_load_lbs=m.tire.rated_load_lbs,
+                        rated_inflation_psi=m.tire.rated_inflation_psi,
+                        outside_diameter_in=m.tire.outside_diameter_in,
+                        section_width_in=m.tire.section_width_in,
+                        margin_load=m.margin_load,
+                        score=m.score,
+                        reasons=m.reasons,
+                    )
+                    for m in match_result.nose_or_tail
+                ]
+                
+                concept.tire_suggestion.matched_main_tires = main_tires if main_tires else None
+                concept.tire_suggestion.matched_nose_or_tail_tires = nose_tires if nose_tires else None
+                concept.tire_suggestion.tire_selection_notes = match_result.notes if match_result.notes else None
+                concept.tire_suggestion.tire_selection_warnings = match_result.warnings if match_result.warnings else None
+        
         return result
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
@@ -477,4 +550,32 @@ async def list_runway_types():
             "grass": "Natural grass surface, requires larger tires",
             "gravel": "Gravel or dirt surface, needs robust gear",
         }
+    }
+
+
+@app.get("/tire-catalog-status", tags=["Tires"])
+async def tire_catalog_status():
+    """Check if PDF tire catalog is available."""
+    from gearrec.tire_catalog.loader import catalog_exists, load_tire_specs, load_applications
+    
+    exists = catalog_exists()
+    tire_count = 0
+    app_count = 0
+    
+    if exists:
+        try:
+            tire_count = len(load_tire_specs())
+        except Exception:
+            pass
+        try:
+            app_count = len(load_applications())
+        except Exception:
+            pass
+    
+    return {
+        "available": exists,
+        "tire_count": tire_count,
+        "application_count": app_count,
+        "message": "Tire catalog is available" if exists else "Tire catalog not found. Run 'python -m gearrec import-tires' to import.",
+        "warning": "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing."
     }

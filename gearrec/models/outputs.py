@@ -76,6 +76,19 @@ class CatalogTire(BaseModel):
     max_pressure_kpa: Optional[float] = Field(default=None, description="Max inflation pressure in kPa")
 
 
+class PDFMatchedTire(BaseModel):
+    """A tire matched from PDF catalog with scoring details."""
+    size: str = Field(..., description="Tire size designation")
+    ply_rating: Optional[str] = Field(default=None, description="Ply rating")
+    rated_load_lbs: float = Field(..., description="Rated load capacity in lbs")
+    rated_inflation_psi: Optional[float] = Field(default=None, description="Rated inflation in psi")
+    outside_diameter_in: Optional[float] = Field(default=None, description="Outside diameter in inches")
+    section_width_in: Optional[float] = Field(default=None, description="Section width in inches")
+    margin_load: float = Field(..., description="Load margin as fraction")
+    score: float = Field(..., ge=0, le=1, description="Match score")
+    reasons: list[str] = Field(default_factory=list, description="Selection reasons")
+
+
 class TireSuggestion(BaseModel):
     """
     Tire sizing suggestions based on load requirements.
@@ -103,6 +116,23 @@ class TireSuggestion(BaseModel):
     matched_catalog_tires: Optional[list[CatalogTire]] = Field(
         default=None,
         description="Matching tires from internal catalog (if available)"
+    )
+    # PDF-based tire matches (from Goodyear catalog)
+    matched_main_tires: Optional[list[PDFMatchedTire]] = Field(
+        default=None,
+        description="Main wheel tires matched from PDF catalog"
+    )
+    matched_nose_or_tail_tires: Optional[list[PDFMatchedTire]] = Field(
+        default=None,
+        description="Nose/tail wheel tires matched from PDF catalog"
+    )
+    tire_selection_notes: Optional[list[str]] = Field(
+        default=None,
+        description="Notes about tire selection from PDF catalog"
+    )
+    tire_selection_warnings: Optional[list[str]] = Field(
+        default=None,
+        description="Warnings about tire selection (including verification disclaimer)"
     )
 
 
