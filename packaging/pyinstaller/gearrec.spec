@@ -4,7 +4,6 @@ PyInstaller spec for building the gearrec CLI as a single-folder (onedir) app.
 Outputs to dist/gearrec-<os>-<arch>/gearrec[.exe]
 """
 
-import os
 import platform
 from pathlib import Path
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
@@ -13,10 +12,6 @@ block_cipher = None
 
 _spec_file = Path(globals().get("__file__", Path.cwd() / "packaging/pyinstaller/gearrec.spec"))
 project_root = _spec_file.resolve().parents[2] if _spec_file.exists() else Path.cwd()
-dist_dir = project_root / "dist" / f"gearrec-{platform.system().lower()}-{platform.machine().lower()}"
-distpath = str(dist_dir)
-workpath = str(project_root / "build")
-specpath = str(_spec_file.parent)
 
 datas = collect_data_files("gearrec", includes=["data/*.json"])
 hiddenimports = collect_submodules("gearrec")
@@ -68,5 +63,4 @@ coll = COLLECT(
     upx=True,
     upx_exclude=[],
     name="gearrec",
-    distpath=str(dist_dir),
 )
