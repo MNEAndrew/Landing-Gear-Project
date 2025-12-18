@@ -227,6 +227,33 @@ Results include:
 - `avg_score`, `worst_case_score`, `best_case_score`
 - `most_robust_concept`: Best overall robustness
 
+## Installation & CLI
+
+```bash
+pip install -e .[dev]
+```
+
+CLI usage:
+- `gearrec make-example`
+- `gearrec recommend --input example_input.json`
+- `gearrec sweep --input example_input.json`
+- `gearrec import-tires --data-section <Data-Section.pdf> --app-charts <Application-Charts.pdf>`
+- `gearrec serve --port 8000`
+
+## Local executable build (PyInstaller, beta)
+- macOS/Linux: `./scripts/build_exe.sh`
+- Windows (PowerShell): `./scripts/build_exe.ps1`
+
+Outputs land in `dist/gearrec-<os>-<arch>/gearrec[.exe]` and support `gearrec --help`, `gearrec recommend --input ...`.
+
+## Release process (GitHub Actions)
+1) Update version (`python scripts/bump_version.py <new-version>`) and commit.
+2) Tag: `git tag v0.1.0-beta && git push origin v0.1.0-beta`
+3) GitHub Actions (release workflow) runs tests, builds PyInstaller executables for Windows/macOS/Linux, uploads artifacts, and creates a GitHub Release with attached zips.
+
+## Safety disclaimer
+This tool is for **conceptual sizing only**. Always verify with airframe and tire manufacturers and follow applicable regulations before any installation or certification activity.
+
 ## License
 
 MIT License - See LICENSE file for details.

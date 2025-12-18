@@ -1,0 +1,1697 @@
+{
+  "aircraft_name": "GA-2024 Trainer",
+  "input_summary": {
+    "mtow_kg": 1200.0,
+    "mlw_kg": 1140.0,
+    "cg_fwd_m": 2.1,
+    "cg_aft_m": 2.45,
+    "cg_height_m": 1.1,
+    "fuselage_length_m": 8.5,
+    "landing_speed_mps": 28.0,
+    "sink_rate_mps": 2.0,
+    "runway": "paved",
+    "brake_decel_g": 0.4,
+    "retractable_required": false
+  },
+  "concepts": [
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.19,
+          "max": 0.21000000000000002
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 15922.125040540544,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "22x8.00-8",
+            "diameter_m": 0.559,
+            "width_m": 0.203,
+            "max_load_N": 17800.0,
+            "max_pressure_kpa": 310.0
+          },
+          {
+            "name": "24x7.25-10",
+            "diameter_m": 0.61,
+            "width_m": 0.184,
+            "max_load_N": 20020.0,
+            "max_pressure_kpa": 448.0
+          },
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.3968677164848481,
+            "score": 0.8098987626546682,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X6.5-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 150.0,
+            "outside_diameter_in": 18.0,
+            "section_width_in": 17.45,
+            "margin_load": 0.3968677164848481,
+            "score": 0.7874015748031497,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "19.5X6.75-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 4270.0,
+            "rated_inflation_psi": 110.0,
+            "outside_diameter_in": 19.2,
+            "section_width_in": 18.9,
+            "margin_load": 0.19292502987806026,
+            "score": 0.7381889763779529,
+            "reasons": [
+              "Load margin: 19%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 3950.0,
+            "rated_inflation_psi": 148.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.10352549602302998,
+            "score": 0.7289088863892014,
+            "reasons": [
+              "Load margin: 10%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "7.00-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 4500.0,
+            "rated_inflation_psi": 84.0,
+            "outside_diameter_in": 20.85,
+            "section_width_in": 7.3,
+            "margin_load": 0.2571809448363633,
+            "score": 0.6797711437149493,
+            "reasons": [
+              "Load margin: 26%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "5.00-5",
+            "ply_rating": "6",
+            "rated_load_lbs": 1285.0,
+            "rated_inflation_psi": 50.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.13617059737971257,
+            "score": 0.7935577242985475,
+            "reasons": [
+              "Load margin: 14%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.5473140431241221,
+            "score": 0.6151518560179978,
+            "reasons": [
+              "Load margin: 55%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "5.00-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 2550.0,
+            "rated_inflation_psi": 115.0,
+            "outside_diameter_in": 13.25,
+            "section_width_in": 12.7,
+            "margin_load": 1.2546576056951495,
+            "score": 0.54,
+            "reasons": [
+              "Load margin: 125%",
+              "Diameter within range"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.9009858244096358,
+            "score": 0.5390384828656983,
+            "reasons": [
+              "Load margin: 90%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "13.5X6.0-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 3450.0,
+            "rated_inflation_psi": 135.0,
+            "outside_diameter_in": 13.75,
+            "section_width_in": 13.2,
+            "margin_load": 2.050419113587555,
+            "score": 0.525697924123121,
+            "reasons": [
+              "Load margin: 205%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 14249.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.576271186440678,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8500000000000001,
+      "score_breakdown": {
+        "robustness": 0.9500000000000001,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.19,
+          "max": 0.21000000000000002
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 15922.125040540544,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "22x8.00-8",
+            "diameter_m": 0.559,
+            "width_m": 0.203,
+            "max_load_N": 17800.0,
+            "max_pressure_kpa": 310.0
+          },
+          {
+            "name": "24x7.25-10",
+            "diameter_m": 0.61,
+            "width_m": 0.184,
+            "max_load_N": 20020.0,
+            "max_pressure_kpa": 448.0
+          },
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.3968677164848481,
+            "score": 0.8098987626546682,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X6.5-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 150.0,
+            "outside_diameter_in": 18.0,
+            "section_width_in": 17.45,
+            "margin_load": 0.3968677164848481,
+            "score": 0.7874015748031497,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "19.5X6.75-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 4270.0,
+            "rated_inflation_psi": 110.0,
+            "outside_diameter_in": 19.2,
+            "section_width_in": 18.9,
+            "margin_load": 0.19292502987806026,
+            "score": 0.7381889763779529,
+            "reasons": [
+              "Load margin: 19%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 3950.0,
+            "rated_inflation_psi": 148.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.10352549602302998,
+            "score": 0.7289088863892014,
+            "reasons": [
+              "Load margin: 10%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "7.00-8",
+            "ply_rating": "10",
+            "rated_load_lbs": 4500.0,
+            "rated_inflation_psi": 84.0,
+            "outside_diameter_in": 20.85,
+            "section_width_in": 7.3,
+            "margin_load": 0.2571809448363633,
+            "score": 0.6797711437149493,
+            "reasons": [
+              "Load margin: 26%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "5.00-5",
+            "ply_rating": "6",
+            "rated_load_lbs": 1285.0,
+            "rated_inflation_psi": 50.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.13617059737971257,
+            "score": 0.7935577242985475,
+            "reasons": [
+              "Load margin: 14%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.5473140431241221,
+            "score": 0.6151518560179978,
+            "reasons": [
+              "Load margin: 55%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "5.00-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 2550.0,
+            "rated_inflation_psi": 115.0,
+            "outside_diameter_in": 13.25,
+            "section_width_in": 12.7,
+            "margin_load": 1.2546576056951495,
+            "score": 0.54,
+            "reasons": [
+              "Load margin: 125%",
+              "Diameter within range"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.9009858244096358,
+            "score": 0.5390384828656983,
+            "reasons": [
+              "Load margin: 90%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "13.5X6.0-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 3450.0,
+            "rated_inflation_psi": 135.0,
+            "outside_diameter_in": 13.75,
+            "section_width_in": 13.2,
+            "margin_load": 2.050419113587555,
+            "score": 0.525697924123121,
+            "reasons": [
+              "Load margin: 205%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 14249.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.576271186440678,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8500000000000001,
+      "score_breakdown": {
+        "robustness": 0.9500000000000001,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.095,
+          "max": 0.10500000000000001
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 24844.422337837845,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "7.00-8",
+            "ply_rating": "16",
+            "rated_load_lbs": 6650.0,
+            "rated_inflation_psi": 125.0,
+            "outside_diameter_in": 20.85,
+            "section_width_in": 7.3,
+            "margin_load": 0.19063610544946324,
+            "score": 0.6797711437149493,
+            "reasons": [
+              "Load margin: 19%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X5.7-8",
+            "ply_rating": "18",
+            "rated_load_lbs": 8600.0,
+            "rated_inflation_psi": 300.0,
+            "outside_diameter_in": 17.9,
+            "section_width_in": 17.3,
+            "margin_load": 0.5397700010323886,
+            "score": 0.6730303963401223,
+            "reasons": [
+              "Load margin: 54%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "21X7.25-10",
+            "ply_rating": "14",
+            "rated_load_lbs": 7600.0,
+            "rated_inflation_psi": 198.0,
+            "outside_diameter_in": 21.25,
+            "section_width_in": 7.2,
+            "margin_load": 0.36072697765652945,
+            "score": 0.6669754515979621,
+            "reasons": [
+              "Load margin: 36%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "450X190-5",
+            "ply_rating": "22",
+            "rated_load_lbs": 8880.0,
+            "rated_inflation_psi": 225.0,
+            "outside_diameter_in": 18.11,
+            "section_width_in": 17.32,
+            "margin_load": 0.5899020475776291,
+            "score": 0.6652260681661065,
+            "reasons": [
+              "Load margin: 59%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "21.5X7.0-10",
+            "ply_rating": "12",
+            "rated_load_lbs": 6700.0,
+            "rated_inflation_psi": 135.0,
+            "outside_diameter_in": 21.76,
+            "section_width_in": 7.05,
+            "margin_load": 0.19958825661825622,
+            "score": 0.6513432144511349,
+            "reasons": [
+              "Load margin: 20%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "15X6.0-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1950.0,
+            "rated_inflation_psi": 68.0,
+            "outside_diameter_in": 15.2,
+            "section_width_in": 14.55,
+            "margin_load": 0.27271745745094017,
+            "score": 0.7925818483215915,
+            "reasons": [
+              "Load margin: 27%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.40325258129206226,
+            "score": 0.7511378507264059,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "7.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1900.0,
+            "rated_inflation_psi": 38.0,
+            "outside_diameter_in": 18.75,
+            "section_width_in": 18.0,
+            "margin_load": 0.24008367649065968,
+            "score": 0.6725196850393701,
+            "reasons": [
+              "Load margin: 24%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "8.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 2050.0,
+            "rated_inflation_psi": 35.0,
+            "outside_diameter_in": 19.5,
+            "section_width_in": 18.75,
+            "margin_load": 0.3379850193715012,
+            "score": 0.66,
+            "reasons": [
+              "Load margin: 34%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.1421823336098181,
+            "score": 0.6495725534308212,
+            "reasons": [
+              "Load margin: 14%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 28499.999999999993,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5967741935483871,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.095,
+          "max": 0.10500000000000001
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 24844.422337837845,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "7.00-8",
+            "ply_rating": "16",
+            "rated_load_lbs": 6650.0,
+            "rated_inflation_psi": 125.0,
+            "outside_diameter_in": 20.85,
+            "section_width_in": 7.3,
+            "margin_load": 0.19063610544946324,
+            "score": 0.6797711437149493,
+            "reasons": [
+              "Load margin: 19%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X5.7-8",
+            "ply_rating": "18",
+            "rated_load_lbs": 8600.0,
+            "rated_inflation_psi": 300.0,
+            "outside_diameter_in": 17.9,
+            "section_width_in": 17.3,
+            "margin_load": 0.5397700010323886,
+            "score": 0.6730303963401223,
+            "reasons": [
+              "Load margin: 54%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "21X7.25-10",
+            "ply_rating": "14",
+            "rated_load_lbs": 7600.0,
+            "rated_inflation_psi": 198.0,
+            "outside_diameter_in": 21.25,
+            "section_width_in": 7.2,
+            "margin_load": 0.36072697765652945,
+            "score": 0.6669754515979621,
+            "reasons": [
+              "Load margin: 36%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "450X190-5",
+            "ply_rating": "22",
+            "rated_load_lbs": 8880.0,
+            "rated_inflation_psi": 225.0,
+            "outside_diameter_in": 18.11,
+            "section_width_in": 17.32,
+            "margin_load": 0.5899020475776291,
+            "score": 0.6652260681661065,
+            "reasons": [
+              "Load margin: 59%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "21.5X7.0-10",
+            "ply_rating": "12",
+            "rated_load_lbs": 6700.0,
+            "rated_inflation_psi": 135.0,
+            "outside_diameter_in": 21.76,
+            "section_width_in": 7.05,
+            "margin_load": 0.19958825661825622,
+            "score": 0.6513432144511349,
+            "reasons": [
+              "Load margin: 20%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "15X6.0-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1950.0,
+            "rated_inflation_psi": 68.0,
+            "outside_diameter_in": 15.2,
+            "section_width_in": 14.55,
+            "margin_load": 0.27271745745094017,
+            "score": 0.7925818483215915,
+            "reasons": [
+              "Load margin: 27%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.40325258129206226,
+            "score": 0.7511378507264059,
+            "reasons": [
+              "Load margin: 40%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "7.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1900.0,
+            "rated_inflation_psi": 38.0,
+            "outside_diameter_in": 18.75,
+            "section_width_in": 18.0,
+            "margin_load": 0.24008367649065968,
+            "score": 0.6725196850393701,
+            "reasons": [
+              "Load margin: 24%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "8.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 2050.0,
+            "rated_inflation_psi": 35.0,
+            "outside_diameter_in": 19.5,
+            "section_width_in": 18.75,
+            "margin_load": 0.3379850193715012,
+            "score": 0.66,
+            "reasons": [
+              "Load margin: 34%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.1421823336098181,
+            "score": 0.6495725534308212,
+            "reasons": [
+              "Load margin: 14%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 28499.999999999993,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5967741935483871,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 1.9125,
+          "max": 2.3375
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.14250000000000002,
+          "max": 0.15750000000000003
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 18896.224139639642,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          },
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.17701305205782966,
+            "score": 0.8098987626546682,
+            "reasons": [
+              "Load margin: 18%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X6.5-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 150.0,
+            "outside_diameter_in": 18.0,
+            "section_width_in": 17.45,
+            "margin_load": 0.17701305205782966,
+            "score": 0.7874015748031497,
+            "reasons": [
+              "Load margin: 18%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "14",
+            "rated_load_lbs": 6050.0,
+            "rated_inflation_psi": 220.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.4241857929899739,
+            "score": 0.688413948256468,
+            "reasons": [
+              "Load margin: 42%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "22X5.75-12",
+            "ply_rating": "10",
+            "rated_load_lbs": 5700.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 22.0,
+            "section_width_in": 5.75,
+            "margin_load": 0.34179487934592584,
+            "score": 0.644237652111668,
+            "reasons": [
+              "Load margin: 34%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "6.50-10",
+            "ply_rating": "12",
+            "rated_load_lbs": 5750.0,
+            "rated_inflation_psi": 120.0,
+            "outside_diameter_in": 22.1,
+            "section_width_in": 6.65,
+            "margin_load": 0.35356500986650413,
+            "score": 0.6413225496134249,
+            "reasons": [
+              "Load margin: 35%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.38371316976432873,
+            "score": 0.718413948256468,
+            "reasons": [
+              "Load margin: 38%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "15X6.0-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1950.0,
+            "rated_inflation_psi": 68.0,
+            "outside_diameter_in": 15.2,
+            "section_width_in": 14.55,
+            "margin_load": 0.5418518177373949,
+            "score": 0.6736945710733527,
+            "reasons": [
+              "Load margin: 54%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "7.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1900.0,
+            "rated_inflation_psi": 38.0,
+            "outside_diameter_in": 18.75,
+            "section_width_in": 18.0,
+            "margin_load": 0.5023171557441284,
+            "score": 0.5761417322834645,
+            "reasons": [
+              "Load margin: 50%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "5.00-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 2550.0,
+            "rated_inflation_psi": 115.0,
+            "outside_diameter_in": 13.25,
+            "section_width_in": 12.7,
+            "margin_load": 1.0162677616565934,
+            "score": 0.54,
+            "reasons": [
+              "Load margin: 102%",
+              "Diameter within range"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.699990465710461,
+            "score": 0.5390384828656983,
+            "reasons": [
+              "Load margin: 70%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18999.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.0470588235294116,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (4.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5867768595041322,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    },
+    {
+      "config": "tricycle",
+      "gear_type": "fixed",
+      "wheel_count_main": 1,
+      "wheel_count_nose_or_tail": 1,
+      "geometry": {
+        "track_m": {
+          "min": 2.3562000000000007,
+          "max": 2.879800000000001
+        },
+        "wheelbase_m": {
+          "min": 2.4097500000000003,
+          "max": 2.94525
+        },
+        "main_strut_length_m": {
+          "min": 0.4,
+          "max": 0.55
+        },
+        "nose_or_tail_strut_length_m": {
+          "min": 0.26249999999999996,
+          "max": 0.4675
+        },
+        "stroke_m": {
+          "min": 0.14250000000000002,
+          "max": 0.15750000000000003
+        }
+      },
+      "tire_suggestion": {
+        "required_static_load_per_wheel_N": 6999.827743243246,
+        "required_dynamic_load_per_wheel_N": 18896.224139639642,
+        "recommended_tire_diameter_range_m": {
+          "min": 0.3,
+          "max": 0.4
+        },
+        "recommended_tire_width_range_m": {
+          "min": 0.1,
+          "max": 0.14
+        },
+        "matched_catalog_tires": [
+          {
+            "name": "26x10.5-6 Bush",
+            "diameter_m": 0.66,
+            "width_m": 0.267,
+            "max_load_N": 22240.0,
+            "max_pressure_kpa": 138.0
+          },
+          {
+            "name": "29x11.0-10",
+            "diameter_m": 0.737,
+            "width_m": 0.279,
+            "max_load_N": 31140.0,
+            "max_pressure_kpa": 345.0
+          }
+        ],
+        "matched_main_tires": [
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.17701305205782966,
+            "score": 0.8098987626546682,
+            "reasons": [
+              "Load margin: 18%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "18X6.5-8",
+            "ply_rating": "12",
+            "rated_load_lbs": 5000.0,
+            "rated_inflation_psi": 150.0,
+            "outside_diameter_in": 18.0,
+            "section_width_in": 17.45,
+            "margin_load": 0.17701305205782966,
+            "score": 0.7874015748031497,
+            "reasons": [
+              "Load margin: 18%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "17.5X5.75-8",
+            "ply_rating": "14",
+            "rated_load_lbs": 6050.0,
+            "rated_inflation_psi": 220.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.95,
+            "margin_load": 0.4241857929899739,
+            "score": 0.688413948256468,
+            "reasons": [
+              "Load margin: 42%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "22X5.75-12",
+            "ply_rating": "10",
+            "rated_load_lbs": 5700.0,
+            "rated_inflation_psi": 180.0,
+            "outside_diameter_in": 22.0,
+            "section_width_in": 5.75,
+            "margin_load": 0.34179487934592584,
+            "score": 0.644237652111668,
+            "reasons": [
+              "Load margin: 34%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "6.50-10",
+            "ply_rating": "12",
+            "rated_load_lbs": 5750.0,
+            "rated_inflation_psi": 120.0,
+            "outside_diameter_in": 22.1,
+            "section_width_in": 6.65,
+            "margin_load": 0.35356500986650413,
+            "score": 0.6413225496134249,
+            "reasons": [
+              "Load margin: 35%",
+              "Diameter oversized"
+            ]
+          }
+        ],
+        "matched_nose_or_tail_tires": [
+          {
+            "size": "6.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1750.0,
+            "rated_inflation_psi": 42.0,
+            "outside_diameter_in": 17.5,
+            "section_width_in": 16.8,
+            "margin_load": 0.38371316976432873,
+            "score": 0.718413948256468,
+            "reasons": [
+              "Load margin: 38%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "15X6.0-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1950.0,
+            "rated_inflation_psi": 68.0,
+            "outside_diameter_in": 15.2,
+            "section_width_in": 14.55,
+            "margin_load": 0.5418518177373949,
+            "score": 0.6736945710733527,
+            "reasons": [
+              "Load margin: 54%",
+              "Diameter oversized"
+            ]
+          },
+          {
+            "size": "7.00-6",
+            "ply_rating": "6",
+            "rated_load_lbs": 1900.0,
+            "rated_inflation_psi": 38.0,
+            "outside_diameter_in": 18.75,
+            "section_width_in": 18.0,
+            "margin_load": 0.5023171557441284,
+            "score": 0.5761417322834645,
+            "reasons": [
+              "Load margin: 50%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          },
+          {
+            "size": "5.00-4",
+            "ply_rating": "14",
+            "rated_load_lbs": 2550.0,
+            "rated_inflation_psi": 115.0,
+            "outside_diameter_in": 13.25,
+            "section_width_in": 12.7,
+            "margin_load": 1.0162677616565934,
+            "score": 0.54,
+            "reasons": [
+              "Load margin: 102%",
+              "Diameter within range"
+            ]
+          },
+          {
+            "size": "5.00-5",
+            "ply_rating": "10",
+            "rated_load_lbs": 2150.0,
+            "rated_inflation_psi": 88.0,
+            "outside_diameter_in": 14.2,
+            "section_width_in": 13.65,
+            "margin_load": 0.699990465710461,
+            "score": 0.5390384828656983,
+            "reasons": [
+              "Load margin: 70%",
+              "Diameter oversized",
+              "Common light GA size"
+            ]
+          }
+        ],
+        "tire_selection_notes": [
+          "Found 5 main wheel tire options",
+          "Found 5 nose/tail wheel tire options"
+        ],
+        "tire_selection_warnings": [
+          "Application charts are general reference only; verify with airframe manufacturer and tire manufacturer before installing. This is conceptual sizing ONLY, NOT for certification."
+        ]
+      },
+      "loads": {
+        "weight_N": 11179.581,
+        "static_nose_or_tail_load_N": 1846.477342342339,
+        "static_main_load_total_N": 9333.10365765766,
+        "static_main_load_per_wheel_N": 4666.55182882883,
+        "landing_energy_J": 2280.0,
+        "required_avg_force_N": 18999.999999999996,
+        "nose_load_fraction": 0.16516516516516486
+      },
+      "checks": {
+        "tip_back_margin": {
+          "passed": true,
+          "value": 0.03734827264239016,
+          "limit": 0.03,
+          "description": "CG is 0.100m forward of main gear (3.7% of wheelbase). Minimum: 3.0%"
+        },
+        "nose_over_margin": {
+          "passed": true,
+          "value": 0.6378600823045267,
+          "limit": 0.08,
+          "description": "CG is 1.215m aft of nose gear. Under 0.4g braking with CG at 1.10m height, critical arm is 0.440m. Margin: 63.8%"
+        },
+        "ground_clearance_ok": true,
+        "lateral_stability_ok": true,
+        "prop_clearance_ok": true,
+        "rollover_angle_deg": 49.95845091948537,
+        "prop_clearance_margin_m": 0.5867768595041322,
+        "cg_range_sensitivity": {
+          "pass_rate": 1.0,
+          "worst_case_position": "aft",
+          "critical_check": null
+        }
+      },
+      "explanation": [
+        "Tricycle configuration provides good forward visibility and ground handling",
+        "Fixed gear selected for simplicity, lower cost, and easier maintenance",
+        "Single wheel per main leg appropriate for aircraft weight class",
+        "Nose load fraction of 16.5% is high; consider geometry changes",
+        "All stability margins within acceptable limits"
+      ],
+      "assumptions": [
+        "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+        "Static load distribution assumes rigid body equilibrium",
+        "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+        "Shock absorber efficiency assumed at 80%",
+        "Braking deceleration assumed at 0.4g for nose-over check",
+        "Tire sizing is approximate; actual selection requires manufacturer data"
+      ],
+      "input_summary": {
+        "mtow_kg": 1200.0,
+        "mlw_kg": 1140.0,
+        "cg_fwd_m": 2.1,
+        "cg_aft_m": 2.45,
+        "cg_height_m": 1.1,
+        "fuselage_length_m": 8.5,
+        "landing_speed_mps": 28.0,
+        "sink_rate_mps": 2.0,
+        "runway": "paved",
+        "brake_decel_g": 0.4
+      },
+      "score": 0.8375000000000001,
+      "score_breakdown": {
+        "robustness": 0.9,
+        "low_drag": 0.55,
+        "low_mass": 0.8999999999999999,
+        "simplicity": 0.8500000000000001,
+        "checks_penalty": 0.0
+      }
+    }
+  ],
+  "assumptions": [
+    "Touchdown energy: 2280J (0.5 * 1140kg * 2.0m/s²)",
+    "Static load distribution assumes rigid body equilibrium",
+    "Dynamic loads use simplified energy-based model (F_avg = E/stroke)",
+    "Shock absorber efficiency assumed at 80%",
+    "Braking deceleration assumed at 0.4g for nose-over check",
+    "Tire sizing is approximate; actual selection requires manufacturer data"
+  ],
+  "warnings": []
+}

@@ -426,5 +426,10 @@ def cli():
         return 1
 
 
+def main():
+    """Console script entrypoint wrapper."""
+    return cli()
+
+
 if __name__ == "__main__":
     sys.exit(cli())

@@ -14,7 +14,7 @@ Usage:
     python -m gearrec serve --port 8000
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.0-beta"
 __author__ = "Landing Gear Project"
 
 from gearrec.models.inputs import AircraftInputs, RunwayType, DesignPriorities

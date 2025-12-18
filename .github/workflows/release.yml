@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Run tests
+        run: pytest
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          from gearrec import __version__
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"version={__version__}\n")
+          PY
+      - name: Build executable
+        run: pyinstaller packaging/pyinstaller/gearrec.spec
+      - name: Normalize dist folder
+        shell: bash
+        run: |
+          OS=$(python - <<'PY'
+import platform
+print(platform.system().lower())
+PY
+)
+          ARCH=$(python - <<'PY'
+import platform
+print(platform.machine().lower())
+PY
+)
+          SRC="dist/gearrec"
+          TARGET="dist/gearrec-${OS}-${ARCH}"
+          rm -rf "${TARGET}"
+          if [ -d "${SRC}" ]; then mv "${SRC}" "${TARGET}"; fi
+          if [ -f "dist/gearrec.exe" ]; then
+            if [ -f "${TARGET}/gearrec.exe" ]; then
+              rm "dist/gearrec.exe"
+            else
+              mv "dist/gearrec.exe" "${TARGET}/gearrec.exe"
+            fi
+          fi
+      - name: Zip artifact
+        id: package
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python - <<'PY'
+          import os
+          import platform
+          import pathlib
+          import shutil
+
+          version = os.environ["VERSION"]
+          os_name = platform.system().lower()
+          arch = platform.machine().lower()
+          dist_dir = pathlib.Path("dist") / f"gearrec-{os_name}-{arch}"
+          if not dist_dir.exists():
+              raise SystemExit(f"Missing dist dir: {dist_dir}")
+          zip_stem = f"gearrec-{version}-{os_name}-{arch}"
+          archive = shutil.make_archive(zip_stem, "zip", dist_dir)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"zip_path={archive}\n")
+          PY
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gearrec-${{ steps.version.outputs.version }}-${{ matrix.os }}
+          path: ${{ steps.package.outputs.zip_path }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/**/*.zip
+          name: "gearrec ${{ github.ref_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
