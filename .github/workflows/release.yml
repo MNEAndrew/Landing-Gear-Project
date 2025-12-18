@@ -39,16 +39,8 @@ jobs:
       - name: Normalize dist folder
         shell: bash
         run: |
-          OS=$(python - <<'PY'
-import platform
-print(platform.system().lower())
-PY
-)
-          ARCH=$(python - <<'PY'
-import platform
-print(platform.machine().lower())
-PY
-)
+          OS=$(python -c "import platform; print(platform.system().lower())")
+          ARCH=$(python -c "import platform; print(platform.machine().lower())")
           SRC="dist/gearrec"
           TARGET="dist/gearrec-${OS}-${ARCH}"
           rm -rf "${TARGET}"
